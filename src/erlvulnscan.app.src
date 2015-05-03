@@ -1,0 +1,13 @@
+{application, erlvulnscan,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+		  cowboy
+                 ]},
+  {mod, { erlvulnscan_app, []}},
+  {env, []}
+ ]}.
