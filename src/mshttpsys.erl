@@ -1,7 +1,7 @@
 -module(mshttpsys).
 -compile(export_all).
 
--define(TIMEOUT, 1000).
+-define(TIMEOUT, 150).
 -define(TESTHEADER, <<"GET / HTTP/1.1\r\nHost: stuff\r\nRange: bytes=0-18446744073709551615\r\n\r\n">>).
 -define(SCANSTR, "Requested Range Not Satisfiable").
 
@@ -18,8 +18,8 @@ mshttpsys_receive(T, Results) ->
 	receive
 	{Address, Msg} ->
 		%io:fwrite("~s With ~w received address ~w~n", [Msg,Address,R]),
-		mshttpsys_receive(T-1, Results ++ [{Msg, Address}])
-	after ?TIMEOUT ->
+		mshttpsys_receive(T-1, Results ++ [{Address, Msg}])
+	after ?TIMEOUT*2 ->
 		Results
 	end.
 
