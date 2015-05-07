@@ -1,7 +1,7 @@
 %% Feel free to use, reuse and abuse the code in this file.
 
-%% @doc GET echo handler.
 -module(toppage_handler).
+%% @doc GET echo handler.
 
 -export([init/3]).
 -export([handle/2]).
