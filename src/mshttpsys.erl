@@ -1,5 +1,5 @@
 -module(mshttpsys).
--compile(export_all).
+-export([mshttpsys_runscan/1]).
 
 -define(TIMEOUT, 150).
 -define(TESTHEADER, <<"GET / HTTP/1.1\r\nHost: stuff\r\nRange: bytes=0-18446744073709551615\r\n\r\n">>).
