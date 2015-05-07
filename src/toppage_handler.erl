@@ -13,13 +13,13 @@ init(_Transport, Req, []) ->
 handle(Req, State) ->
 	{Method, Req2} = cowboy_req:method(Req),
 	{Network, Req3} = cowboy_req:qs_val(<<"network">>, Req2),
-	{ok, Req4} = network(Method, binary_to_list(Network), Req3),
+	{ok, Req4} = network(Method, Network, Req3),
 	{ok, Req4, State}.
 
 network(<<"GET">>, undefined, Req) ->
 	cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req);
 network(<<"GET">>, Network, Req) ->
-	Scan = mshttpsys:mshttpsys_runscan(Network),
+	Scan = mshttpsys:mshttpsys_runscan(binary_to_list(Network)),
 	%Convert erlang ip_address into string
 	ConvertFun = fun({X,Y}) -> {list_to_binary(inet:ntoa(X)), Y} end,
 	ScanConverted = lists:map(ConvertFun, Scan),
