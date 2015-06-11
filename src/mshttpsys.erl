@@ -13,7 +13,7 @@ mshttpsys_runscan(Network) ->
 	mshttpsys_receive(254, []).
 
 %% @doc Collects replies from threads with results of scan.
--spec mshttpsys_receive(non_neg_integer(), _) -> any().
+-spec mshttpsys_receive(byte(),[{_,atom()}]) -> [{_,atom()}].
 mshttpsys_receive(0, Results) ->
 	Results;
 
@@ -27,7 +27,7 @@ mshttpsys_receive(T, Results) ->
 	end.
 
 %% @doc Spawns a thread and receives a message with the address to scan
--spec mshttpsys_spawner(non_neg_integer(), _) -> 'ok'.
+-spec mshttpsys_spawner(byte(),_) -> 'ok'.
 mshttpsys_spawner(0, _) ->   
 	ok;
 
@@ -50,13 +50,14 @@ mshttpsys(Address) ->
 	%Known vulnerable: 212.48.69.194
 	case gen_tcp:connect(Address, 80, [], ?TIMEOUT) of
 	{ok, Socket} ->
-		gen_tcp:send(Socket, ?TESTHEADER),
-		inet:setopts(Socket, [{active, once}]),
+		ok = gen_tcp:send(Socket, ?TESTHEADER),
+		ok = inet:setopts(Socket, [{active, once}]),
 		receive
 		{tcp, Socket, Msg} ->
 			gen_tcp:close(Socket),
 			mshttpsys_scan(Msg)
 		after ?TIMEOUT ->
+			gen_tcp:close(Socket),
 			no_connection
 		end;
 	{error, _} ->
