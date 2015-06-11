@@ -67,7 +67,8 @@ mshttpsys(Address) ->
 %% @doc Searches the server's return string for vulnerability confirmation
 -spec mshttpsys_scan(string()) -> 'not_vulnerable' | 'vulnerable'.
 mshttpsys_scan(Headers) ->
-	case string:str(Headers, ?SCANSTR) == 0 of
+	case string:str(Headers, ?SCANSTR) == 0 
+	orelse string:str(Headers, "Microsoft") == 0 of
 	false ->
 		vulnerable;
 	true ->
