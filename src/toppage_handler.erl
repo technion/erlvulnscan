@@ -21,11 +21,10 @@ network(<<"GET">>, undefined, Req) ->
 network(<<"GET">>, Network, Req) ->
 	Scan = mshttpsys:mshttpsys_runscan(binary_to_list(Network)),
 	%Convert erlang ip_address into string
-	ConvertFun = fun({X,Y}) -> {list_to_binary(inet:ntoa(X)), Y} end,
-	ScanConverted = lists:map(ConvertFun, Scan),
+	ScanJson = ipmangle:ip_results_to_json(Scan),
 	cowboy_req:reply(200, [
 		{<<"content-type">>, <<"text/plain; charset=utf-8">>}
-	], jiffy:encode({ScanConverted}), Req);
+	], ScanJson, Req);
 network(_, _, Req) ->
 	%% Method not allowed.
 	cowboy_req:reply(405, Req).
