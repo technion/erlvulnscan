@@ -19,12 +19,21 @@ handle(Req, State) ->
 network(<<"GET">>, undefined, Req) ->
 	cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req);
 network(<<"GET">>, Network, Req) ->
-	Scan = mshttpsys:mshttpsys_runscan(binary_to_list(Network)),
-	%Convert erlang ip_address into string
-	ScanJson = ipmangle:ip_results_to_json(Scan),
-	cowboy_req:reply(200, [
+	case catch ipmangle:verify_address(Network) of
+	{'EXIT', _} ->
+		% This handles the exception from the address verifier
+		cowboy_req:reply(200, [
 		{<<"content-type">>, <<"text/plain; charset=utf-8">>}
-	], ScanJson, Req);
+		], <<"{error}">> , Req);
+	Network2 -> 
+		% If Nework = <<"127.0.0.1">>, Network2 = "127.0.0."
+		Scan = mshttpsys:mshttpsys_runscan(Network2),
+		%Convert erlang ip_address into string
+		ScanJson = ipmangle:ip_results_to_json(Scan),
+		cowboy_req:reply(200, [
+		{<<"content-type">>, <<"text/plain; charset=utf-8">>}
+		], ScanJson, Req)
+	end;
 network(_, _, Req) ->
 	%% Method not allowed.
 	cowboy_req:reply(405, Req).
