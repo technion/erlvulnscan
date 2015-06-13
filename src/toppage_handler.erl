@@ -27,7 +27,7 @@ network(<<"GET">>, Network, Req) ->
             ], <<"{error}">> , Req);
     Network2 -> 
             % If Nework = <<"127.0.0.1">>, Network2 = "127.0.0."
-            Scan = mshttpsys:mshttpsys_runscan(Network2),
+            Scan = netscan:netscan_runscan(Network2),
             %Convert erlang ip_address into string
             ScanJson = ipmangle:ip_results_to_json(Scan),
             cowboy_req:reply(200, [
