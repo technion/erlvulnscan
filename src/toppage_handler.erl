@@ -25,7 +25,7 @@ network(<<"GET">>, Network, Req) ->
             cowboy_req:reply(200, [
             {<<"content-type">>, <<"text/plain; charset=utf-8">>}
             ], <<"{error}">> , Req);
-    Network2 -> 
+    Network2 ->
             % If Nework = <<"127.0.0.1">>, Network2 = "127.0.0."
             Scan = netscan:netscan_runscan(Network2),
             %Convert erlang ip_address into string

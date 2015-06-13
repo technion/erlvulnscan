@@ -9,7 +9,7 @@
 
 
 %% @doc Connects to port 80 and sends the scan command
--spec mshttpsys({byte(),byte(),byte(),byte()}) -> 
+-spec mshttpsys({byte(), byte(), byte(), byte()}) ->
     'no_connection' | 'not_vulnerable' | 'vulnerable'.
 mshttpsys(Address) ->
     %Known vulnerable: 212.48.69.194
@@ -32,7 +32,7 @@ mshttpsys(Address) ->
 %% @doc Searches the server's return string for vulnerability confirmation
 -spec mshttpsys_scan(string()) -> 'not_vulnerable' | 'vulnerable'.
 mshttpsys_scan(Headers) ->
-    case string:str(Headers, ?SCANSTR) == 0 
+    case string:str(Headers, ?SCANSTR) == 0
     orelse string:str(Headers, "Microsoft") == 0 of
     false ->
             vulnerable;

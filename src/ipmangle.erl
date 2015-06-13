@@ -2,7 +2,7 @@
 -module(ipmangle).
 -export([ip_results_to_json/1, verify_address/1]).
 
-%% @doc Verifies input is a valid network address. Converts binary input to 
+%% @doc Verifies input is a valid network address. Converts binary input to
 %% list output. For example, binary "127.0.0.0" returns "127.0.0.".
 %% This is consistent with input required for the scanner.
 %% The caller should catch exceptions.
@@ -19,9 +19,9 @@ verify_address(Network) ->
 
 
 %% @doc Converts the ip tuple for a JSON format suited for React
--spec ip_results_to_json([{list(integer()),atom()}]) -> binary().
+-spec ip_results_to_json([{list(integer()), atom()}]) -> binary().
 ip_results_to_json(Results) ->
-    ConvertFun = fun({X,Y}) -> {[{<<"address">>, 
+    ConvertFun = fun({X, Y}) -> {[{<<"address">>,
             list_to_binary(inet:ntoa(X))}, {<<"stat">>, Y}]} end,
     ScanConverted = lists:map(ConvertFun, Results),
     jiffy:encode(ScanConverted).
@@ -35,6 +35,7 @@ verify_address_test() ->
     ?assertError(_, verify_address(<<"127.0.0.1">>)).
 
 ip_results_to_json_test() ->
-    ?assertEqual(ip_results_to_json([{{127,0,0,253},not_vulnerable}, {{127,0,0,252},not_vulnerable}]), <<"[{\"address\":\"127.0.0.253\",\"stat\":\"not_vulnerable\"},{\"address\":\"127.0.0.252\",\"stat\":\"not_vulnerable\"}]">>).
+    ?assertEqual(ip_results_to_json([{{127, 0, 0, 253}, not_vulnerable}, {{127, 0, 0, 252}, not_vulnerable}]),
+            <<"[{\"address\":\"127.0.0.253\",\"stat\":\"not_vulnerable\"},{\"address\":\"127.0.0.252\",\"stat\":\"not_vulnerable\"}]">>).
 
 -endif.
