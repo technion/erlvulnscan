@@ -9,69 +9,69 @@
 %% @doc Run a scan across the provided network
 -spec mshttpsys_runscan(string()) -> [{list(integer()),atom()}].
 mshttpsys_runscan(Network) ->
-	mshttpsys_spawner(254, Network),
-	mshttpsys_receive(254, []).
+    mshttpsys_spawner(254, Network),
+    mshttpsys_receive(254, []).
 
 %% @doc Collects replies from threads with results of scan.
 -spec mshttpsys_receive(byte(),[{_,atom()}]) -> [{_,atom()}].
 mshttpsys_receive(0, Results) ->
-	Results;
+    Results;
 
 mshttpsys_receive(T, Results) ->
-	receive
-	{Address, Msg} ->
-		%io:fwrite("~s With ~w received address ~w~n", [Msg,Address,R]),
-		mshttpsys_receive(T-1, Results ++ [{Address, Msg}])
-	after ?TIMEOUT*2 ->
-		Results
-	end.
+    receive
+    {Address, Msg} ->
+            %io:fwrite("~s With ~w received address ~w~n", [Msg,Address,R]),
+            mshttpsys_receive(T-1, Results ++ [{Address, Msg}])
+    after ?TIMEOUT*2 ->
+                Results
+    end.
 
 %% @doc Spawns a thread and receives a message with the address to scan
 -spec mshttpsys_spawner(byte(),_) -> 'ok'.
 mshttpsys_spawner(0, _) ->   
-	ok;
+    ok;
 
 mshttpsys_spawner(N, Network) ->
-	Pid = spawn(fun() ->
-		receive
-		{From, execute} ->
-			{ok, Address} = 
-			inet:parse_address(Network ++ integer_to_list(N)),
-			From ! {Address, mshttpsys(Address) }
-		end 
-	end),
-	Pid ! {self(), execute},
-	mshttpsys_spawner(N-1, Network).
+    Pid = spawn(fun() ->
+            receive
+            {From, execute} ->
+                    {ok, Address} = 
+                    inet:parse_address(Network ++ integer_to_list(N)),
+                    From ! {Address, mshttpsys(Address) }
+            end 
+    end),
+    Pid ! {self(), execute},
+    mshttpsys_spawner(N-1, Network).
 
 %% @doc Connects to port 80 and sends the scan command
 -spec mshttpsys({byte(),byte(),byte(),byte()}) -> 
-	'no_connection' | 'not_vulnerable' | 'vulnerable'.
+    'no_connection' | 'not_vulnerable' | 'vulnerable'.
 mshttpsys(Address) ->
-	%Known vulnerable: 212.48.69.194
-	case gen_tcp:connect(Address, 80, [], ?TIMEOUT) of
-	{ok, Socket} ->
-		ok = gen_tcp:send(Socket, ?TESTHEADER),
-		ok = inet:setopts(Socket, [{active, once}]),
-		receive
-		{tcp, Socket, Msg} ->
-			gen_tcp:close(Socket),
-			mshttpsys_scan(Msg)
-		after ?TIMEOUT ->
-			gen_tcp:close(Socket),
-			no_connection
-		end;
-	{error, _} ->
-		no_connection
-	end.
+    %Known vulnerable: 212.48.69.194
+    case gen_tcp:connect(Address, 80, [], ?TIMEOUT) of
+    {ok, Socket} ->
+            ok = gen_tcp:send(Socket, ?TESTHEADER),
+            ok = inet:setopts(Socket, [{active, once}]),
+            receive
+            {tcp, Socket, Msg} ->
+                    gen_tcp:close(Socket),
+                    mshttpsys_scan(Msg)
+            after ?TIMEOUT ->
+                    gen_tcp:close(Socket),
+                    no_connection
+            end;
+    {error, _} ->
+            no_connection
+    end.
 
 %% @doc Searches the server's return string for vulnerability confirmation
 -spec mshttpsys_scan(string()) -> 'not_vulnerable' | 'vulnerable'.
 mshttpsys_scan(Headers) ->
-	case string:str(Headers, ?SCANSTR) == 0 
-	orelse string:str(Headers, "Microsoft") == 0 of
-	false ->
-		vulnerable;
-	true ->
-		not_vulnerable
-	end.
+    case string:str(Headers, ?SCANSTR) == 0 
+    orelse string:str(Headers, "Microsoft") == 0 of
+    false ->
+            vulnerable;
+    true ->
+                not_vulnerable
+    end.
 
