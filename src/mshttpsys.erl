@@ -2,7 +2,8 @@
 -module(mshttpsys).
 -export([mshttpsys/1]).
 
--define(TIMEOUT, 150).
+-include("defs.hrl").
+
 -define(TESTHEADER, <<"GET / HTTP/1.1\r\nHost: stuff\r\nRange: bytes=0-18446744073709551615\r\n\r\n">>).
 -define(SCANSTR, "Requested Range Not Satisfiable").
 

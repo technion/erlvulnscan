@@ -2,7 +2,7 @@
 -module(netscan).
 -export([netscan_runscan/1]).
 
--define(TIMEOUT, 150).
+-include("defs.hrl").
 
 %% @doc Run a scan across the provided network
 -spec netscan_runscan(string()) -> [{list(integer()),atom()}].
