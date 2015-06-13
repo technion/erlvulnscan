@@ -26,3 +26,15 @@ ip_results_to_json(Results) ->
     ScanConverted = lists:map(ConvertFun, Results),
     jiffy:encode(ScanConverted).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+verify_address_test() ->
+    ?assertEqual("127.0.0.", verify_address(<<"127.0.0.0">>)),
+    ?assertError(_, verify_address(<<"127.324324234.43432.12321">>)),
+    ?assertError(_, verify_address(<<"127.0.0.1">>)).
+
+ip_results_to_json_test() ->
+    ?assertEqual(ip_results_to_json([{{127,0,0,253},not_vulnerable}, {{127,0,0,252},not_vulnerable}]), <<"[{\"address\":\"127.0.0.253\",\"stat\":\"not_vulnerable\"},{\"address\":\"127.0.0.252\",\"stat\":\"not_vulnerable\"}]">>).
+
+-endif.

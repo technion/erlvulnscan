@@ -41,3 +41,11 @@ netscan_spawner(N, Network) ->
     Pid ! {self(), execute},
     netscan_spawner(N-1, Network).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+netscan_runscan_test() ->
+    ?assertEqual(netscan_spawner(1, "127.0.0."), ok),
+    ?assertEqual(netscan_receive(1, []), [{{127,0,0,1}, not_vulnerable}]).
+
+-endif.

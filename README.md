@@ -32,6 +32,10 @@ Create edocs (only necessary after API change as these are synced to git)
 
 	./rebar doc
 
+Run test harness (currently only eunit)
+
+    ./rebar eunit
+
 ### nginx setup
 
 These rules were used for routing:
