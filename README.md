@@ -32,3 +32,11 @@ Create edocs (only necessary after API change as these are synced to git)
 
 	./rebar doc
 
+### nginx setup
+
+These rules were used for routing:
+
+    location /netscan {
+        proxy_pass http://localhost:8080;
+    }
+
