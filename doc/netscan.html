@@ -2,34 +2,40 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Module mshttpsys</title>
+<title>Module netscan</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
 </head>
 <body bgcolor="white">
 <div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
 <hr>
 
-<h1>Module mshttpsys</h1>
+<h1>Module netscan</h1>
 <ul class="index"><li><a href="#description">Description</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>Module that spawns threads to scan CVE-2015-1635, and each thread reports results to the main thread.
 
 
 <h2><a name="description">Description</a></h2>Module that spawns threads to scan CVE-2015-1635, and each thread reports results to the main thread
 <h2><a name="index">Function Index</a></h2>
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#mshttpsys-1">mshttpsys/1</a></td><td>Connects to port 80 and sends the scan command.</td></tr>
-<tr><td valign="top"><a href="#mshttpsys_scan-1">mshttpsys_scan/1*</a></td><td>Searches the server's return string for vulnerability confirmation.</td></tr>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#netscan_receive-2">netscan_receive/2*</a></td><td>Collects replies from threads with results of scan.</td></tr>
+<tr><td valign="top"><a href="#netscan_runscan-1">netscan_runscan/1</a></td><td>Run a scan across the provided network.</td></tr>
+<tr><td valign="top"><a href="#netscan_spawner-2">netscan_spawner/2*</a></td><td>Spawns a thread and receives a message with the address to scan.</td></tr>
 </table>
 
 <h2><a name="functions">Function Details</a></h2>
 
-<h3 class="function"><a name="mshttpsys-1">mshttpsys/1</a></h3>
+<h3 class="function"><a name="netscan_receive-2">netscan_receive/2 *</a></h3>
 <div class="spec">
-<p><tt>mshttpsys(Address::{byte(), byte(), byte(), byte()}) -&gt; no_connection | not_vulnerable | vulnerable</tt><br></p>
-</div><p>Connects to port 80 and sends the scan command</p>
+<p><tt>netscan_receive(T::byte(), Results::[{term(), atom()}]) -&gt; [{term(), atom()}]</tt><br></p>
+</div><p>Collects replies from threads with results of scan.</p>
 
-<h3 class="function"><a name="mshttpsys_scan-1">mshttpsys_scan/1 *</a></h3>
+<h3 class="function"><a name="netscan_runscan-1">netscan_runscan/1</a></h3>
 <div class="spec">
-<p><tt>mshttpsys_scan(Headers::string()) -&gt; not_vulnerable | vulnerable</tt><br></p>
-</div><p>Searches the server's return string for vulnerability confirmation</p>
+<p><tt>netscan_runscan(Network::string()) -&gt; [{[integer()], atom()}]</tt><br></p>
+</div><p>Run a scan across the provided network</p>
+
+<h3 class="function"><a name="netscan_spawner-2">netscan_spawner/2 *</a></h3>
+<div class="spec">
+<p><tt>netscan_spawner(N::byte(), Network::term()) -&gt; ok</tt><br></p>
+</div><p>Spawns a thread and receives a message with the address to scan</p>
 <hr>
 
 <div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>

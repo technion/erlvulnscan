@@ -2,6 +2,12 @@
 -module(ipmangle).
 -export([ip_results_to_json/1, verify_address/1]).
 
+%% @doc Verifies input is a valid network address. Converts binary input to 
+%% list output. For example, binary "127.0.0.0" returns "127.0.0.".
+%% This is consistent with input required for the scanner.
+%% The caller should catch exceptions.
+%% @end
+-spec verify_address(binary()) -> [byte()].
 verify_address(Network) ->
     % All functions require lists
     NetworkList = binary_to_list(Network),

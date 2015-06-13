@@ -1,4 +1,5 @@
 %% encoding: UTF-8
 {application,erlvulnscan}.
 {packages,[]}.
-{modules,[erlvulnscan_app,erlvulnscan_sup,ipmangle,mshttpsys,toppage_handler]}.
+{modules,[erlvulnscan_app,erlvulnscan_sup,ipmangle,mshttpsys,netscan,
+          toppage_handler]}.
