@@ -4,11 +4,11 @@ module.exports = function(grunt) {
     
     react: {
       jsx: {
-        files: {'erlvulnscan.js': 'erlvulnscan.jsx'}
+        files: {'public/erlvulnscan.js': 'assets/erlvulnscan.jsx'}
       }
     },
     jshint: {
-        all: ['erlvulnscan.jsx']
+        all: ['assets/erlvulnscan.jsx']
     }
 
   });
