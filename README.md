@@ -36,6 +36,17 @@ Run test harness (currently only eunit)
 
     ./rebar eunit
 
+##Building the frontend
+The frontend is built using several Grunt plugins. From the static/ directory:
+
+Install the plugins:
+
+    npm install
+
+To build the frontend:
+
+    grunt
+
 ### nginx setup
 
 These rules were used for routing:
