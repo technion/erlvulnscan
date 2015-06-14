@@ -1,8 +1,6 @@
 Web based concurrent scanner for CVE-2015-1635.
 
-Can scan an entire /24 in 200ms.
-
-This code is very alpha.
+[Information on this project is written here](https://lolware.net/2015/06/15/mass-vulnerability-scanning.html).  As the "TODO" list documented there has been completed this code is now in a stable state. 
 
 [Code documentation can be found here](https://htmlpreview.github.io/?https://github.com/technion/erlvulnscan/blob/master/doc/index.html).
 
