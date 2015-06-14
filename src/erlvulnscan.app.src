@@ -1,7 +1,7 @@
 {application, erlvulnscan,
  [
   {description, ""},
-  {vsn, "1"},
+  {vsn, "1.02"},
   {registered, []},
   {applications, [
                   kernel,

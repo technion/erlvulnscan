@@ -24,7 +24,7 @@ network(<<"GET">>, Network, Req) ->
             % This handles the exception from the address verifier
             cowboy_req:reply(200, [
             {<<"content-type">>, <<"text/plain; charset=utf-8">>}
-            ], <<"{error}">> , Req);
+            ], <<"{error: \"Invalid input\"}">> , Req);
     Network2 ->
             % If Nework = <<"127.0.0.1">>, Network2 = "127.0.0."
             Scan = netscan:netscan_runscan(Network2),
