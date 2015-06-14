@@ -37,7 +37,7 @@ Run test harness (currently only eunit)
     ./rebar eunit
 
 ##Building the frontend
-The frontend is built using several Grunt plugins. From the static/ directory:
+The frontend is built using several Grunt plugins. From the frontend/ directory:
 
 Install the plugins:
 
