@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     
     react: {
       jsx: {
-        files: {'public/erlvulnscan.js': 'assets/erlvulnscan.jsx'}
+        files: {'assets/erlvulnscan.js': 'assets/erlvulnscan.jsx'}
       }
     },
     jshint: {
@@ -17,14 +17,23 @@ module.exports = function(grunt) {
         file: {
         src: ['public/index.html']
         }
+    },
+    concat: {
+        options: {
+            separator: ';',
+        },
+        dist: {
+            src: ['assets/sweetalert-dev.js', 'assets/erlvulnscan.js'],
+            dest: 'public/erlvulnscan.js',
+        },
     }
-
   });
 
   grunt.loadNpmTasks('grunt-react');
   grunt.loadNpmTasks('grunt-jsxhint');
   grunt.loadNpmTasks('grunt-html-validation');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
 
-  grunt.registerTask('default', ['jshint', 'react']);
+  grunt.registerTask('default', ['jshint', 'react', 'concat']);
 };
