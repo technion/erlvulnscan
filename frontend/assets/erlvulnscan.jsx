@@ -34,7 +34,7 @@ var NetscanForm = React.createClass({
     }
     var re = /^\d+\.\d+\.\d+\.0$/; //IP Address match. Not a complete verifier.
     if (!network.match(re)) {
-        swal("Invalid input: Please supply a valid network address");
+        swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
         return;
     }
     this.props.onNetscanSubmit(network);
