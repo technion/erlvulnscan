@@ -10,12 +10,13 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
+    {ok, Port} = application:get_env(erlvulnscan, bind_port),
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/netscan", toppage_handler, []}
         ]}
     ]),
-    {ok, _} = cowboy:start_http(http, 100, [{port, 8080}], [
+    {ok, _} = cowboy:start_http(http, 100, [{port, Port}], [
         {env, [{dispatch, Dispatch}]}
     ]),
     erlvulnscan_sup:start_link().

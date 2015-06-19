@@ -9,5 +9,5 @@
 		  cowboy
                  ]},
   {mod, { erlvulnscan_app, []}},
-  {env, []}
+  {env, [{bind_port, 8080}]}
  ]}.
