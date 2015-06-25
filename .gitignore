@@ -1,3 +1,5 @@
 deps/
-rel/erlvulnscan/
+rel/erlvulnscan*/
 ebin/
+.eunit/
+.rebar/
