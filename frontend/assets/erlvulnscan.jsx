@@ -64,6 +64,7 @@ var NetscanBox = React.createClass({
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
+        swal("Error", "Unable to connect to backend", "error");
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
