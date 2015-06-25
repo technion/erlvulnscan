@@ -1,9 +1,9 @@
 
 var NetscanList = React.createClass({
   render: function() {
-    var commentNodes = this.props.data.map(function (comment) {
+    var commentNodes = this.props.data.map(function (comment,index) {
       return (
-              <IPResult address={comment.address} >
+              <IPResult address={comment.address} key={index}>
               {comment.stat} 
               </IPResult>
       );
