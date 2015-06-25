@@ -9,8 +9,7 @@
 
 
 %% @doc Connects to port 80 and sends the scan command
--spec mshttpsys(inet:ip4_address()) ->
-    'no_connection' | 'not_vulnerable' | 'vulnerable'.
+-spec mshttpsys(inet:ip4_address()) -> scan_result().
 mshttpsys(Address) ->
     %Known vulnerable: 212.48.69.194
     case gen_tcp:connect(Address, 80, [], ?TIMEOUT) of
@@ -37,6 +36,6 @@ mshttpsys_scan(Headers) ->
     false ->
             vulnerable;
     true ->
-                not_vulnerable
+            not_vulnerable
     end.
 

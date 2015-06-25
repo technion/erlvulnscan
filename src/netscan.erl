@@ -5,13 +5,14 @@
 -include("defs.hrl").
 
 %% @doc Run a scan across the provided network
--spec netscan_runscan(string()) -> [{list(integer()), atom()}].
+-spec netscan_runscan(string()) -> [{inet:ip4_address(), scan_result()}].
 netscan_runscan(Network) ->
     netscan_spawner(254, Network),
     netscan_receive(254, []).
 
 %% @doc Collects replies from threads with results of scan.
--spec netscan_receive(byte(), [{_, atom()}]) -> [{_, atom()}].
+-spec netscan_receive(0..254, [{inet:ip4_address(),scan_result()}]) -> 
+    [{inet:ip4_address(), scan_result()}].
 netscan_receive(0, Results) ->
     Results;
 
