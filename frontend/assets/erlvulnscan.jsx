@@ -18,8 +18,17 @@ var NetscanList = React.createClass({
 
 var IPResult = React.createClass({
     render: function() {
+        var ipstate;
+        if (this.props.children === "vulnerable") {
+            ipstate = "alert alert-danger";
+        } else if (this.props.children === "not_vulnerable") {
+            ipstate = "alert alert-success";
+        } else {
+            ipstate = "alert alert-info"; //No connect state
+        }
+
         return (
-            <div className="alert alert-info" role="alert">
+            <div className={ipstate} role="alert">
             {this.props.address} {this.props.children}</div>
         );
     }
