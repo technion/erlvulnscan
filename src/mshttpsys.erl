@@ -9,7 +9,7 @@
 
 
 %% @doc Connects to port 80 and sends the scan command
--spec mshttpsys({byte(), byte(), byte(), byte()}) ->
+-spec mshttpsys(inet:ip4_address()) ->
     'no_connection' | 'not_vulnerable' | 'vulnerable'.
 mshttpsys(Address) ->
     %Known vulnerable: 212.48.69.194
