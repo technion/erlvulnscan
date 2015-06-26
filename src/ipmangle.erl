@@ -2,6 +2,8 @@
 -module(ipmangle).
 -export([ip_results_to_json/1, verify_address/1]).
 
+-include("defs.hrl").
+
 %% @doc Verifies input is a valid network address. Converts binary input to
 %% list output. For example, binary "127.0.0.0" returns "127.0.0.".
 %% This is consistent with input required for the scanner.
@@ -19,7 +21,7 @@ verify_address(Network) ->
 
 
 %% @doc Converts the ip tuple for a JSON format suited for React
--spec ip_results_to_json([{inet:ip4_address(), atom()}]) -> binary().
+-spec ip_results_to_json([{inet:ip4_address(), scan_result()}]) -> binary().
 ip_results_to_json(Results) ->
     ConvertFun = fun({X, Y}) -> {[{<<"address">>,
             list_to_binary(inet:ntoa(X))}, {<<"stat">>, Y}]} end,
