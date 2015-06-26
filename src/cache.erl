@@ -11,7 +11,7 @@
 
 -spec create_table() -> ok.
 create_table() ->
-    simple_cache = ets:new(simple_cache, [ named_table, 
+    simple_cache = ets:new(simple_cache, [ named_table,
             {read_concurrency, true}, public, {write_concurrency, true} ]),
     ok.
 
@@ -26,7 +26,7 @@ now_secs() ->
     MegaSecs*1000000 + Secs.
 
 %% @doc For a key K, caches the output of F(K).
--spec cached_fun(function(),list()) -> {_,'expire' | 'hit' | 'miss'}.
+-spec cached_fun(function(), list()) -> {_, 'expire' | 'hit' | 'miss'}.
 cached_fun(F, K) ->
     Now = now_secs(),
     case ets:lookup(simple_cache, K) of
@@ -43,9 +43,8 @@ cached_fun(F, K) ->
         {FuncRes, expire}
     end.
 
- 
--ifdef(TEST). 
--include_lib("eunit/include/eunit.hrl"). 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
 
 create_table_test() ->
     create_table().
@@ -60,7 +59,7 @@ cached_fun_expire_test() ->
     F = fun(K) -> K ++ "demo" end, %A mock function
     timer:sleep((?LIFETIME+1)*1000),
     ?assertEqual(cached_fun(F, "127"), {"127demo", expire}).
-    
+
 delete_table_test() ->
     delete_table().
 -endif.

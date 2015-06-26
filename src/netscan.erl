@@ -11,7 +11,7 @@ netscan_runscan(Network) ->
     netscan_receive(254, []).
 
 %% @doc Collects replies from threads with results of scan.
--spec netscan_receive(0..254, [{inet:ip4_address(),scan_result()}]) -> 
+-spec netscan_receive(0..254, [{inet:ip4_address(), scan_result()}]) ->
     [{inet:ip4_address(), scan_result()}].
 netscan_receive(0, Results) ->
     Results;
