@@ -11,6 +11,7 @@
 
 start(_StartType, _StartArgs) ->
     {ok, Port} = application:get_env(erlvulnscan, bind_port),
+    cache:create_table(),
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/netscan", toppage_handler, []}
@@ -22,4 +23,5 @@ start(_StartType, _StartArgs) ->
     erlvulnscan_sup:start_link().
 
 stop(_State) ->
+    cache:delete_table(),
     ok.

@@ -21,16 +21,19 @@ network(<<"GET">>, undefined, Req) ->
 network(<<"GET">>, Network, Req) ->
     case catch ipmangle:verify_address(Network) of
     {'EXIT', _} ->
-            % This handles the exception from the address verifier
-            cowboy_req:reply(200, [
+        % This handles the exception from the address verifier
+        cowboy_req:reply(200, [
             {<<"content-type">>, <<"text/plain; charset=utf-8">>}
             ], <<"{error: \"Invalid input\"}">> , Req);
     Network2 ->
-            % If Nework = <<"127.0.0.1">>, Network2 = "127.0.0."
-            Scan = netscan:netscan_runscan(Network2),
+        % If Network = <<"127.0.0.1">>, Network2 = "127.0.0."
+        CacheF = fun(K) ->
+            Scan = netscan:netscan_runscan(K),
             %Convert erlang ip_address into string
-            ScanJson = ipmangle:ip_results_to_json(Scan),
-            cowboy_req:reply(200, [
+            ipmangle:ip_results_to_json(Scan)
+            end,
+        {ScanJson, _Hit} = cache:cached_fun(CacheF, Network2),
+        cowboy_req:reply(200, [
             {<<"content-type">>, <<"text/plain; charset=utf-8">>}
             ], ScanJson, Req)
     end;
