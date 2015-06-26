@@ -31,9 +31,13 @@ ip_results_to_json(Results) ->
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 
-verify_address_test() ->
-    ?assertEqual("127.0.0.", verify_address(<<"127.0.0.0">>)),
-    ?assertError(_, verify_address(<<"127.324324234.43432.12321">>)),
+verify_address_valid_test() ->
+    ?assertEqual("127.0.0.", verify_address(<<"127.0.0.0">>)).
+
+verify_address_stupid_test() ->
+    ?assertError(_, verify_address(<<"127.324324234.43432.12321">>)).
+
+verify_address_fullip_test() ->
     ?assertError(_, verify_address(<<"127.0.0.1">>)).
 
 ip_results_to_json_test() ->
