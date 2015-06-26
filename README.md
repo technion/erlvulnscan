@@ -20,7 +20,7 @@ Compile
 
 Static analysis
 
-	dialyzer --src src/ -Wunmatched_returns  -Wrace_conditions -Wunderspecs
+	dialyzer --src src/ -Wunmatched_returns -Wunderspecs
 
 Generate release
 
