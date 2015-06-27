@@ -22,7 +22,7 @@ network(<<"GET">>, Network, Req) ->
     case catch ipmangle:verify_address(Network) of
     {'EXIT', _} ->
         % This handles the exception from the address verifier
-        cowboy_req:reply(200, [
+        cowboy_req:reply(400, [
             {<<"content-type">>, <<"text/plain; charset=utf-8">>}
             ], <<"{error: \"Invalid input\"}">> , Req);
     Network2 ->
@@ -34,7 +34,7 @@ network(<<"GET">>, Network, Req) ->
             end,
         {ScanJson, _Hit} = cache:cached_fun(CacheF, Network2),
         cowboy_req:reply(200, [
-            {<<"content-type">>, <<"text/plain; charset=utf-8">>}
+            {<<"content-type">>, <<"application/json; charset=utf-8">>}
             ], ScanJson, Req)
     end;
 network(_, _, Req) ->
