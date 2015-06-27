@@ -3,19 +3,20 @@
 -export([cached_fun/2, create_table/0, delete_table/0]).
 -include_lib("stdlib/include/ms_transform.hrl").
 
-%% @doc LIFETIME defines, in seconds, cache lifetime
 -ifdef(TEST).
 -define(LIFETIME, 2).
 -else.
 -define(LIFETIME, 3600).
 -endif.
 
+%% @doc Call on app start to create a shared table.
 -spec create_table() -> ok.
 create_table() ->
     simple_cache = ets:new(simple_cache, [ named_table,
             {read_concurrency, true}, public, {write_concurrency, true} ]),
     ok.
 
+%% @doc deletes the shared table.
 -spec delete_table() -> ok.
 delete_table() ->
     ets:delete(simple_cache),
