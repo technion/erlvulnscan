@@ -65,6 +65,7 @@ var NetscanBox = React.createClass({
     return {data: []};
   },
   handleNetscanSubmit: function(network) {
+    React.findDOMNode(this.refs.prompt).innerHTML = "Running query...";
     $.ajax({
       url: "http://erlvulnscan.lolware.net/netscan/?network=" + network,
       dataType: 'json',
@@ -77,11 +78,12 @@ var NetscanBox = React.createClass({
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
+    React.findDOMNode(this.refs.prompt).innerHTML = "Scan completed.";
   },
   render: function() {
     return (
         <div className="jumbotron">
-        <div className="panel-heading">Please enter a /24 network address.</div>
+        <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
         <NetscanList data={this.state.data} />
         <NetscanForm onNetscanSubmit={this.handleNetscanSubmit} />
         </div>
