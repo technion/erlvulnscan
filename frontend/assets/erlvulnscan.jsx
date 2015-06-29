@@ -75,13 +75,13 @@ var NetscanBox = React.createClass({
       cache: false,
       success: function(data) {
         this.setState({data: data, showForm: false});
+        React.findDOMNode(this.refs.prompt).innerHTML = "Scan completed.";
       }.bind(this),
       error: function(xhr, status, err) {
         swal("Error", "Unable to connect to backend", "error");
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
-    React.findDOMNode(this.refs.prompt).innerHTML = "Scan completed.";
   },
   render: function() {
     return (
