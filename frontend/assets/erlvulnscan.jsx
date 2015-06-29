@@ -51,6 +51,9 @@ var NetscanForm = React.createClass({
     return;
   },
   render: function() {
+    if(this.props.show === false) {
+        return(null);
+    }
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <input type="text" placeholder="127.0.0.0" ref="network" />
@@ -62,7 +65,7 @@ var NetscanForm = React.createClass({
 
 var NetscanBox = React.createClass({
   getInitialState: function() {
-    return {data: []};
+    return {data: [], showForm: true};
   },
   handleNetscanSubmit: function(network) {
     React.findDOMNode(this.refs.prompt).innerHTML = "Running query...";
@@ -71,7 +74,7 @@ var NetscanBox = React.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.setState({data: data});
+        this.setState({data: data, showForm: false});
       }.bind(this),
       error: function(xhr, status, err) {
         swal("Error", "Unable to connect to backend", "error");
@@ -85,7 +88,7 @@ var NetscanBox = React.createClass({
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
         <NetscanList data={this.state.data} />
-        <NetscanForm onNetscanSubmit={this.handleNetscanSubmit} />
+        <NetscanForm show={this.state.showForm} onNetscanSubmit={this.handleNetscanSubmit} />
         </div>
     );
   }
