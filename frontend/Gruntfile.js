@@ -23,9 +23,14 @@ module.exports = function(grunt) {
             separator: ';',
         },
         dist: {
-            src: ['assets/sweetalert-dev.js', 'assets/erlvulnscan.js'],
+            src: ['assets/react-0.13.3.js', 'assets/sweetalert-dev.js', 'assets/erlvulnscan.js'],
             dest: 'public/erlvulnscan.js',
         },
+    },
+    uglify: {
+        my_target: {
+        files: { 'public/erlvulnscan.js': ['public/erlvulnscan.js'] }
+        }
     }
   });
 
@@ -33,7 +38,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsxhint');
   grunt.loadNpmTasks('grunt-html-validation');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
 
-  grunt.registerTask('default', ['jshint', 'react', 'concat']);
+  grunt.registerTask('default', ['jshint', 'react', 'concat', 'uglify']);
 };
