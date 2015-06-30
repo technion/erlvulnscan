@@ -34,6 +34,10 @@ Run test harness (currently only eunit)
 
     ./rebar eunit
 
+Observing the cache whille attached to running process
+
+    ets:match(simple_cache, '$1').
+
 ##Building the frontend
 The frontend is built using several Grunt plugins. From the frontend/ directory:
 
