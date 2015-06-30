@@ -36,7 +36,7 @@ netscan_spawner(N, Network) ->
             {From, execute} ->
                     {ok, Address} =
                     inet:parse_address(Network ++ integer_to_list(N)),
-                    From ! {Address, mshttpsys:mshttpsys(Address) }
+                    From ! {Address, ?SCANTYPE:?SCANTYPE(Address) }
             end
     end),
     Pid ! {self(), execute},
