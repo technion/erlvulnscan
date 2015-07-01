@@ -30,9 +30,10 @@ Create edocs (only necessary after API change as these are synced to git)
 
 	./rebar doc
 
-Run test harness (currently only eunit)
+Run test harness (EUnit and Common Test both implemented)
 
     ./rebar eunit
+    ./rebar ct
 
 Observing the cache whille attached to running process
 

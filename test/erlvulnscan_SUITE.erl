@@ -5,7 +5,7 @@
 
 -define(TESTPORT, "8085").
 
-all() -> [invalid_request].
+all() -> [invalid_request, valid_request, valid_json].
 
 init_per_suite(Config) ->
     % Run tests on a non-default port, so they can coexist with a
@@ -18,10 +18,21 @@ init_per_suite(Config) ->
 invalid_request(_Config) ->
     % Although we are testing a "failure", the fact it connects at all
     % shows most of the app is running.
-    timer:sleep(10000),
     URL = "http://localhost:" ++ ?TESTPORT ++ "/netscan/",
     {ok, {{_Version, 400, "Bad Request"}, _Headers, _Body}} =
     httpc:request(get, {URL, []}, [], []).
+
+valid_request(_Config) ->
+    URL = "http://localhost:" ++ ?TESTPORT ++ "/netscan?network=127.0.0.0",
+    {ok, {{_Version, 200, "OK"}, _Headers, _Body}} =
+    httpc:request(get, {URL, []}, [], []).
+
+valid_json(_Config) ->
+    %Same test as valid_request, but tests the JSON
+    URL = "http://localhost:" ++ ?TESTPORT ++ "/netscan?network=127.0.0.0",
+    {ok, {{_Version, 200, "OK"}, _Headers, Body}} =
+    httpc:request(get, {URL, []}, [], []),
+    JSON = jiffy:decode(Body).
 
 end_per_suite(_Config) ->
     inets:stop(),
