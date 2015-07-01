@@ -2,6 +2,7 @@
 -module(netscan).
 -export([netscan_runscan/1]).
 
+%% @headerfile "defs.hrl"
 -include("defs.hrl").
 
 %% @doc Run a scan across the provided network
