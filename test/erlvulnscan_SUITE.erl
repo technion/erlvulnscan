@@ -32,7 +32,8 @@ valid_json(_Config) ->
     URL = "http://localhost:" ++ ?TESTPORT ++ "/netscan?network=127.0.0.0",
     {ok, {{_Version, 200, "OK"}, _Headers, Body}} =
     httpc:request(get, {URL, []}, [], []),
-    JSON = jiffy:decode(Body).
+    JSON = jiffy:decode(Body),
+    254 = length(JSON).
 
 end_per_suite(_Config) ->
     inets:stop(),
