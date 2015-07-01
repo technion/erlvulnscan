@@ -3,3 +3,5 @@ rel/erlvulnscan*/
 ebin/
 .eunit/
 .rebar/
+logs/
+test/*.beam
