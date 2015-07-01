@@ -1,4 +1,4 @@
-%% @doc Include file for common definitions
+%% Include file for common definitions
 %% ?TIMEOUT defines the TCP connection timeout.
 %% ?SDCANTYPE defines the scan module used
 %% scan_result() is a type definition for the three atoms a scan can return.

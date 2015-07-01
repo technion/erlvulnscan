@@ -1,4 +1,4 @@
 %% encoding: UTF-8
 {application,erlvulnscan}.
-{modules,[cache,erlvulnscan_app,erlvulnscan_sup,ipmangle,mshttpsys,
+{modules,[cache,erlvulnscan_app,erlvulnscan_sup,ipmangle,mshttpsys,netscan,
           toppage_handler]}.
