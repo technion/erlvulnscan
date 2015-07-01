@@ -39,3 +39,14 @@ mshttpsys_scan(Headers) ->
             not_vulnerable
     end.
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+safe_address_test() ->
+    {ok, Localhost} = inet:parse_ipv4strict_address("127.0.0.1"),
+    ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
+dead_address_test() ->
+    % Google DNS will not be listening on port 80.
+    {ok, Google} = inet:parse_ipv4strict_address("8.8.8.8"),
+    ?assertEqual(no_connection, mshttpsys(Google)).
+-endif.
