@@ -1,6 +1,7 @@
 
 var NetscanList = React.createClass({
   render: function() {
+   "use strict";
     var commentNodes = this.props.data.map(function (comment,index) {
       return (
               <IPResult address={comment.address} key={index}>
@@ -18,6 +19,7 @@ var NetscanList = React.createClass({
 
 var IPResult = React.createClass({
     render: function() {
+        "use strict";
         var ipstate;
         if (this.props.children === "vulnerable") {
             ipstate = "alert alert-danger";
@@ -36,6 +38,7 @@ var IPResult = React.createClass({
 
 var NetscanForm = React.createClass({
   handleSubmit: function(e) {
+    "use strict";
     e.preventDefault();
     var network = React.findDOMNode(this.refs.network).value.trim();
     if (!network) {
@@ -51,6 +54,7 @@ var NetscanForm = React.createClass({
     return;
   },
   render: function() {
+   "use strict";
     if(this.props.show === false) {
         return(null);
     }
@@ -68,6 +72,7 @@ var NetscanBox = React.createClass({
     return {data: [], showForm: true};
   },
   handleNetscanSubmit: function(network) {
+    "use strict";
     React.findDOMNode(this.refs.prompt).innerHTML = "Running query...";
     $.ajax({
       url: "http://erlvulnscan.lolware.net/netscan/?network=" + network,
