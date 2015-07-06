@@ -20,10 +20,9 @@ netscan_receive(0, Results) ->
 netscan_receive(T, Results) ->
     receive
     {Address, Msg} ->
-            %io:fwrite("~s With ~w received address ~w~n", [Msg,Address,R]),
-            netscan_receive(T-1, Results ++ [{Address, Msg}])
+        netscan_receive(T-1, Results ++ [{Address, Msg}])
     after ?TIMEOUT*2 ->
-                Results
+        Results
     end.
 
 %% @doc Spawns a thread and receives a message with the address to scan

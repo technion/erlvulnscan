@@ -31,7 +31,7 @@ now_secs() ->
 -spec cache_flush() -> ok.
 cache_flush() ->
     Now = now_secs(),
-    Selector = ets:fun2ms(fun({K, Expiry, _Res}) 
+    Selector = ets:fun2ms(fun({K, Expiry, _Res})
             when Expiry < Now -> true end),
     ets:select_delete(simple_cache, Selector),
     ok.
