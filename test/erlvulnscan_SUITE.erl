@@ -10,7 +10,8 @@ all() -> [invalid_request, valid_request, valid_json].
 init_per_suite(Config) ->
     % Run tests on a non-default port, so they can coexist with a
     % running environment.
-    application:set_env(erlvulnscan, test_bind_port, ?TESTPORT),
+    ok = application:load(erlvulnscan),
+    ok = application:set_env(erlvulnscan, bind_port, ?TESTPORT),
     {ok, _Started} = application:ensure_all_started(erlvulnscan),
     inets:start(),
     Config.

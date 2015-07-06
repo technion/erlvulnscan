@@ -9,17 +9,9 @@
 %% Application callbacks
 %% ===================================================================
 
-getport() ->
-    case application:get_env(erlvulnscan, test_bind_port) of
-    {ok, Port} ->
-        Port;
-    true ->
-        {ok, Port} = application:get_env(erlvulnscan, bind_port),
-        Port
-    end.
 
 start(_StartType, _StartArgs) ->
-    Port = getport(),
+    {ok, Port} = application:get_env(erlvulnscan, bind_port),
     cache:create_table(),
     Dispatch = cowboy_router:compile([
         {'_', [
