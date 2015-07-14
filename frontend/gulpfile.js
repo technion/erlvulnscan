@@ -33,3 +33,5 @@ gulp.task('css', function() {
     .pipe(gulp.dest('./build'))
 });
 
+gulp.task('default', ['jshint', 'css', 'build']);
+
