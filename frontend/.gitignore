@@ -1,3 +1,4 @@
-node_modules
-public/*.js
-assets/erlvulnscan.js
+node_modules/
+bower_components/
+build/erlvulnscan.js
+build/sweetalert.css

@@ -1,3 +1,5 @@
+var React = require('../bower_components/react/react');
+require('../bower_components/sweetalert/dist/sweetalert.min');
 
 var NetscanList = React.createClass({
   render: function() {

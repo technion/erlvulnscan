@@ -1,0 +1,19 @@
+{
+  "name": "gdemo",
+  "version": "0.0.0",
+  "authors": [
+    "Technion <technion@lolware.net>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3",
+    "sweetalert": "~1.0.1"
+  }
+}
