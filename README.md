@@ -42,15 +42,16 @@ Observing the cache whille attached to running process
     ets:match(simple_cache, '$1').
 
 ##Building the frontend
-The frontend is built using several Grunt plugins. From the frontend/ directory:
+The frontend is built using several Gulp plugins. From the frontend/ directory:
 
-Install the plugins:
+Install the requirements:
 
     npm install
+    bower install
 
 To build the frontend:
 
-    grunt
+    gulp
 
 ###nginx setup
 
