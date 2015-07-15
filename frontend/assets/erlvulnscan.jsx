@@ -75,6 +75,7 @@ var NetscanBox = React.createClass({
   },
   handleNetscanSubmit: function(network) {
     "use strict";
+    var starttime = new Date().getTime();
     React.findDOMNode(this.refs.prompt).innerHTML = "Running query...";
     $.ajax({
       url: "http://erlvulnscan.lolware.net/netscan/?network=" + network,
@@ -82,7 +83,8 @@ var NetscanBox = React.createClass({
       cache: false,
       success: function(data) {
         this.setState({data: data, showForm: false});
-        React.findDOMNode(this.refs.prompt).innerHTML = "Scan completed.";
+        var elapsed = new Date().getTime() - starttime;
+        React.findDOMNode(this.refs.prompt).innerHTML = "Scan and render completed in " + elapsed + "ms";
       }.bind(this),
       error: function(xhr, status, err) {
         swal("Error", "Unable to connect to backend", "error");
