@@ -31,15 +31,11 @@ netscan_spawner(0, _) ->
     ok;
 
 netscan_spawner(N, Network) ->
-    Pid = spawn(fun() ->
-            receive
-            {From, execute} ->
-                    {ok, Address} =
-                    inet:parse_address(Network ++ integer_to_list(N)),
-                    From ! {Address, ?SCANTYPE:?SCANTYPE(Address) }
-            end
+    Pid = self(),
+    spawn(fun() ->
+        {ok, Address} = inet:parse_address(Network ++ integer_to_list(N)),
+        Pid ! {Address, ?SCANTYPE:?SCANTYPE(Address) }
     end),
-    Pid ! {self(), execute},
     netscan_spawner(N-1, Network).
 
 -ifdef(TEST).
