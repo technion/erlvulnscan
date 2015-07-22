@@ -10,15 +10,25 @@
 init(_Transport, Req, []) ->
     {ok, Req, undefined}.
 
+-spec handle(cowboy_req:req(),_) -> {'ok',cowboy_req:req(),_}.
 handle(Req, State) ->
     {Method, Req2} = cowboy_req:method(Req),
-    {Network, Req3} = cowboy_req:qs_val(<<"network">>, Req2),
-    {ok, Req4} = network(Method, Network, Req3),
+    {ok, Req4} = case Method of
+    <<"GET">> ->
+        {Network, Req3} = cowboy_req:qs_val(<<"network">>, Req2),
+        network(Network, Req3);
+    _ ->
+        % Currently only supporting GET queries
+        cowboy_req:reply(405, Req2)
+    end,
     {ok, Req4, State}.
 
-network(<<"GET">>, undefined, Req) ->
+-spec network('true' | 'undefined' | binary(),cowboy_req:req()) -> 
+    {'ok',cowboy_req:req()}.
+network(undefined, Req) ->
     cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req);
-network(<<"GET">>, Network, Req) ->
+
+network(Network, Req) ->
     case catch ipmangle:verify_address(Network) of
     {'EXIT', _} ->
         % This handles the exception from the address verifier
@@ -36,10 +46,7 @@ network(<<"GET">>, Network, Req) ->
         cowboy_req:reply(200, [
             {<<"content-type">>, <<"application/json; charset=utf-8">>}
             ], ScanJson, Req)
-    end;
-network(_, _, Req) ->
-    %% Method not allowed.
-    cowboy_req:reply(405, Req).
+    end.
 
 terminate(_Reason, _Req, _State) ->
     ok.
