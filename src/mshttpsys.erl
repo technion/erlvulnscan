@@ -45,6 +45,14 @@ mshttpsys_scan(Headers) ->
 safe_address_test() ->
     {ok, Localhost} = inet:parse_ipv4strict_address("127.0.0.1"),
     ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
+safe_iis_test() ->
+    % IP of microsoft.com
+    {ok, Localhost} = inet:parse_ipv4strict_address("173.223.179.235"),
+    ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
+safe_not_iis_test() ->
+    % IP of google.com
+    {ok, Localhost} = inet:parse_ipv4strict_address("74.125.133.99"),
+    ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
 dead_address_test() ->
     % Google DNS will not be listening on port 80.
     {ok, Google} = inet:parse_ipv4strict_address("8.8.8.8"),
