@@ -41,6 +41,8 @@ Observing the cache whille attached to running process
 
     ets:match(simple_cache, '$1').
 
+The "logs" directory can be accessed to identify two sources of tests by aliasing it to a URL. Accessing this directory without a subfolder will show the results of the CT test suite. Accessing view.png will show the PhantomJS output from the frontend test.
+
 ##Building the frontend
 The frontend is built using several Gulp plugins. From the frontend/ directory:
 

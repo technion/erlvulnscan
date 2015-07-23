@@ -9,6 +9,9 @@ var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
+
+//Shell to execute phantomjs
+var shell = require('gulp-shell');
  
 jsfiles = './assets/erlvulnscan.jsx';
 
@@ -33,5 +36,7 @@ gulp.task('css', function() {
     .pipe(gulp.dest('./build'))
 });
 
-gulp.task('default', ['jshint', 'css', 'build']);
+gulp.task('phantom', shell.task(['phantomjs tests/phantomtest.js']));
+
+gulp.task('default', ['jshint', 'css', 'build', 'phantom']);
 

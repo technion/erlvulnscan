@@ -1,3 +1,4 @@
+require('./phantomjs-shims'); //Compatibility shims from Facbeook
 var React = require('../bower_components/react/react');
 require('../bower_components/sweetalert/dist/sweetalert.min');
 
