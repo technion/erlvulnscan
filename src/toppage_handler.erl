@@ -3,28 +3,26 @@
 -module(toppage_handler).
 %% @doc GET echo handler.
 
--export([init/3]).
--export([handle/2]).
--export([terminate/3]).
+-export([init/2]).
 
-init(_Transport, Req, []) ->
-    {ok, Req, undefined}.
-
--spec handle(cowboy_req:req(),_) -> {'ok',cowboy_req:req(),_}.
-handle(Req, State) ->
-    {Method, Req2} = cowboy_req:method(Req),
-    {ok, Req4} = case Method of
+init(Req, Opts) ->
+    Method = cowboy_req:method(Req),
+    Req2 = case Method of
     <<"GET">> ->
-        {Network, Req3} = cowboy_req:qs_val(<<"network">>, Req2),
-        network(Network, Req3);
+        network_get(Req);
     _ ->
         % Currently only supporting GET queries
-        cowboy_req:reply(405, Req2)
+        cowboy_req:reply(405, Req)
     end,
-    {ok, Req4, State}.
+    {ok, Req2, Opts}.
+
+network_get(Req) ->
+    #{network := Network} = 
+        cowboy_req:match_qs([{network, [], undefined}], Req),
+    network(Network, Req).
 
 -spec network('true' | 'undefined' | binary(),cowboy_req:req()) -> 
-    {'ok',cowboy_req:req()}.
+    cowboy_req:req().
 network(undefined, Req) ->
     cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req);
 
@@ -48,5 +46,3 @@ network(Network, Req) ->
             ], ScanJson, Req)
     end.
 
-terminate(_Reason, _Req, _State) ->
-    ok.
