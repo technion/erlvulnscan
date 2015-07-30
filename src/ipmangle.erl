@@ -21,7 +21,10 @@ verify_address(Network) ->
 
 
 %% @doc Converts the ip tuple for a JSON format suited for React
--spec ip_results_to_json([{inet:ip4_address(), scan_result()}]) -> binary().
+-spec ip_results_to_json([{inet:ip4_address(), scan_result()}]) ->
+    jiffy:json_value().
+%    maybe_improper_list(binary() | maybe_improper_list(any(),binary() | []) 
+%    | byte(),binary() | []).
 ip_results_to_json(Results) ->
     ConvertFun = fun({X, Y}) -> {[{<<"address">>,
             list_to_binary(inet:ntoa(X))}, {<<"stat">>, Y}]} end,
