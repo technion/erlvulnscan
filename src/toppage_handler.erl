@@ -19,7 +19,7 @@ init(Req, Opts) ->
 -define(QPARM(Q), {Q, [], undefined}). 
 -spec network_get(cowboy_req:req()) -> cowboy_req:req().
 network_get(Req) ->
-    QS =  cowboy_req:match_qs([{network, [], undefined}], Req),
+    QS =  cowboy_req:match_qs([?QPARM(network)], Req),
     %This pattersn of searching for undefined params is more scaleable
     %to many parametesr
     UndefFilter = fun(_K,V) -> V =:= undefined end,
