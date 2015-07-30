@@ -16,15 +16,23 @@ init(Req, Opts) ->
     end,
     {ok, Req2, Opts}.
 
+-define(QPARM(Q), {Q, [], undefined}). 
+-spec network_get(cowboy_req:req()) -> cowboy_req:req().
 network_get(Req) ->
-    #{network := Network} = 
-        cowboy_req:match_qs([{network, [], undefined}], Req),
-    network(Network, Req).
+    QS =  cowboy_req:match_qs([{network, [], undefined}], Req),
+    %This pattersn of searching for undefined params is more scaleable
+    %to many parametesr
+    UndefFilter = fun(_K,V) -> V =:= undefined end,
+    case maps:filter(UndefFilter, QS) of
+    #{} ->
+        #{network := Network} = QS,
+        network(Network, Req);    
+    _ ->
+        cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req)
+    end.
 
--spec network('true' | 'undefined' | binary(),cowboy_req:req()) -> 
+-spec network('true' | binary(),cowboy_req:req()) -> 
     cowboy_req:req().
-network(undefined, Req) ->
-    cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req);
 
 network(Network, Req) ->
     case catch ipmangle:verify_address(Network) of
