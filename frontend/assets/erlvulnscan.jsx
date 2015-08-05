@@ -1,6 +1,6 @@
 require('./phantomjs-shims'); //Compatibility shims from Facbeook
 var React = require('../bower_components/react/react');
-require('../bower_components/sweetalert/dist/sweetalert.min');
+var Swal = require('../bower_components/sweetalert/dist/sweetalert.min');
 
 var NetscanList = React.createClass({
   render: function() {
@@ -49,7 +49,7 @@ var NetscanForm = React.createClass({
     }
     var re = /^\d+\.\d+\.\d+\.0$/; //IP Address match. Not a complete verifier.
     if (!network.match(re)) {
-        swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
+        new Swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
         return;
     }
     this.props.onNetscanSubmit(network);
@@ -88,7 +88,7 @@ var NetscanBox = React.createClass({
         React.findDOMNode(this.refs.prompt).innerHTML = "Scan and render completed in " + elapsed + "ms";
       }.bind(this),
       error: function(xhr, status, err) {
-        swal("Error", "Unable to connect to backend", "error");
+        new Swal("Error", "Unable to connect to backend", "error");
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
