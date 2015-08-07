@@ -18,9 +18,8 @@ start(_StartType, _StartArgs) ->
             {"/netscan", toppage_handler, []}
         ]}
     ]),
-    {ok, _} = cowboy:start_http(http, 100, [{port, Port}], [
-        {env, [{dispatch, Dispatch}]}
-    ]),
+    {ok, _Pid} = cowboy:start_http(http, 100, [{ip, {127, 0, 0, 1}},
+              {port, Port}], [ {env, [{dispatch, Dispatch}]} ]),
     erlvulnscan_sup:start_link().
 
 stop(_State) ->
