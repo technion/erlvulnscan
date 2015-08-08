@@ -24,8 +24,7 @@ delete_table() ->
 
 -spec now_secs() -> pos_integer().
 now_secs() ->
-    {MegaSecs, Secs, _MicroSecs} = os:timestamp(),
-    MegaSecs*1000000 + Secs.
+    erlang:system_time(seconds).
 
 %% @doc Expires old content
 -spec cache_flush() -> ok.
