@@ -20,7 +20,7 @@ netscan_receive(0, Results) ->
 netscan_receive(T, Results) ->
     receive
     {Address, Msg} ->
-        netscan_receive(T-1, Results ++ [{Address, Msg}])
+        netscan_receive(T-1, [{Address, Msg}|Results])
     after ?TIMEOUT*2 ->
         Results
     end.
@@ -33,7 +33,7 @@ netscan_spawner(0, _) ->
 netscan_spawner(N, Network) ->
     Pid = self(),
     spawn(fun() ->
-        {ok, Address} = inet:parse_address(Network ++ integer_to_list(N)),
+        {ok, Address} = inet:parse_address([Network ++ integer_to_list(N)),
         Pid ! {Address, ?SCANTYPE:?SCANTYPE(Address) }
     end),
     netscan_spawner(N-1, Network).
