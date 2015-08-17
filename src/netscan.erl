@@ -33,7 +33,7 @@ netscan_spawner(0, _) ->
 netscan_spawner(N, Network) ->
     Pid = self(),
     spawn(fun() ->
-        {ok, Address} = inet:parse_address([Network ++ integer_to_list(N)),
+        {ok, Address} = inet:parse_address(Network ++ integer_to_list(N)),
         Pid ! {Address, ?SCANTYPE:?SCANTYPE(Address) }
     end),
     netscan_spawner(N-1, Network).
