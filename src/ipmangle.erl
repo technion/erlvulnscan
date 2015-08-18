@@ -24,9 +24,14 @@ verify_address(Network) ->
 -spec ip_results_to_json([{inet:ip4_address(), scan_result()}]) ->
     jiffy:json_value().
 ip_results_to_json(Results) ->
-    ScanConverted = [{[{<<"address">>, list_to_binary(inet:ntoa(X))},
-                  {<<"stat">>, Y}]} || {X, Y} <- Results],
+    ScanConverted = [ { single_convert(Result) } || Result <- Results],
     jiffy:encode(ScanConverted).
+
+-spec single_convert({inet:ip4_address(), scan_result()}) ->
+       list({ binary(), binary() | scan_result() }).
+single_convert({Address, Stat}) ->
+    [{<<"address">>, list_to_binary(inet:ntoa(Address))},
+                      {<<"stat">>, Stat}].
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
