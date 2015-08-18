@@ -24,9 +24,8 @@ verify_address(Network) ->
 -spec ip_results_to_json([{inet:ip4_address(), scan_result()}]) ->
     jiffy:json_value().
 ip_results_to_json(Results) ->
-    ConvertFun = fun({X, Y}) -> {[{<<"address">>,
-            list_to_binary(inet:ntoa(X))}, {<<"stat">>, Y}]} end,
-    ScanConverted = lists:map(ConvertFun, Results),
+    ScanConverted = [{[{<<"address">>, list_to_binary(inet:ntoa(X))},
+                  {<<"stat">>, Y}]} || {X, Y} <- Results],
     jiffy:encode(ScanConverted).
 
 -ifdef(TEST).
