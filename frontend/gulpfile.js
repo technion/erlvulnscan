@@ -12,6 +12,7 @@ var shell = require('gulp-shell');
  
 var eslint = require('gulp-eslint');
 var babelify = require('babelify');
+var htmlv = require('gulp-html-validator');
 
 jsfiles = './assets/erlvulnscan.jsx';
 
@@ -24,7 +25,7 @@ gulp.task('build', function() {
         .pipe(gulp.dest('./build'));
 });
 
-gulp.task('dev', function () {
+gulp.task('devbuild', function () {
     return browserify({ entries: jsfiles, debug: true })
         .transform(babelify, {compact: false})
         .bundle()
@@ -43,7 +44,13 @@ gulp.task('css', function() {
     .pipe(gulp.dest('./build'))
 });
 
+gulp.task('html', function() {
+    gulp.src('../logs/indextestrun.html')
+    .pipe(htmlv())
+});
+
 gulp.task('phantom', shell.task(['phantomjs tests/phantomtest.js']));
 
-gulp.task('default', ['eslint', 'css', 'build', 'phantom']);
+gulp.task('default', ['eslint', 'css', 'build']);
+gulp.task('dev', ['eslint', 'css', 'devbuild', 'phantom', 'html']);
 
