@@ -1,0 +1,9 @@
+[ignore]
+
+[include]
+./assets/erlvulnscan.jsx
+
+[libs]
+./interfaces/
+
+[options]
