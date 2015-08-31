@@ -5,14 +5,14 @@
 -include("defs.hrl").
 
 -define(TESTHEADER, <<"GET / HTTP/1.1\r\nHost: stuff\r\nRange: bytes=0-18446744073709551615\r\n\r\n">>).
--define(SCANSTR, "Requested Range Not Satisfiable").
+-define(SCANSTR, <<"Requested Range Not Satisfiable">>).
 
 
 %% @doc Connects to port 80 and sends the scan command
 -spec mshttpsys(inet:ip4_address()) -> scan_result().
 mshttpsys(Address) ->
     %Known vulnerable: 212.48.69.194
-    case gen_tcp:connect(Address, 80, [], ?TIMEOUT) of
+    case gen_tcp:connect(Address, 80, [binary], ?TIMEOUT) of
     {ok, Socket} ->
             ok = gen_tcp:send(Socket, ?TESTHEADER),
             ok = inet:setopts(Socket, [{active, once}]),
@@ -29,10 +29,10 @@ mshttpsys(Address) ->
     end.
 
 %% @doc Searches the server's return string for vulnerability confirmation
--spec mshttpsys_scan(string()) -> 'not_vulnerable' | 'vulnerable'.
+-spec mshttpsys_scan(binary()) -> 'not_vulnerable' | 'vulnerable'.
 mshttpsys_scan(Headers) ->
-    case string:str(Headers, ?SCANSTR) == 0
-    orelse string:str(Headers, "Microsoft") == 0 of
+    case binary:match(Headers, ?SCANSTR) == nomatch
+    orelse binary:match(Headers, <<"Microsoft">>) == nomatch of
     false ->
             vulnerable;
     true ->
