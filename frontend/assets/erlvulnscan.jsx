@@ -4,7 +4,7 @@ var React = require('../bower_components/react/react');
 var swal = require('../bower_components/sweetalert/dist/sweetalert.min');
 
 var NetscanList = React.createClass({
-  render: function() {
+   render: function(): ReactElement{
    "use strict";
     var commentNodes = this.props.data.map(function (comment,index) {
       return (
@@ -22,7 +22,7 @@ var NetscanList = React.createClass({
 });
 
 var IPResult = React.createClass({
-    render: function() {
+    render: function(): ReactElement {
         "use strict";
         var ipstate;
         if (this.props.children === "vulnerable") {
@@ -75,7 +75,7 @@ var NetscanBox = React.createClass({
   getInitialState: function() {
     return {data: [], showForm: true};
   },
-  handleNetscanSubmit: function(network) {
+  handleNetscanSubmit: function(network: string) {
     "use strict";
     var starttime = new Date().getTime();
     React.findDOMNode(this.refs.prompt).innerHTML = "Running query...";
@@ -94,7 +94,7 @@ var NetscanBox = React.createClass({
       }.bind(this)
     });
   },
-  render: function() {
+  render: function(): ReactElement {
     return (
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
