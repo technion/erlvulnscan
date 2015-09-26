@@ -22,7 +22,8 @@ Compile
 
 Static analysis
 
-	dialyzer --src src/ -Wunmatched_returns -Wunderspecs
+    ./rebar built-plt #First time only
+    ./rebar dialyzer
 
 Generate release
 
