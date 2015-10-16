@@ -26,7 +26,7 @@ gulp.task('build', function() {
 });
 
 gulp.task('devbuild', function () {
-    return browserify({ entries: jsfiles, debug: true })
+    return browserify({ entries: jsfiles, debug: true, paths: [ './bower_components/react'] })
         .transform(babelify, {compact: false})
         .bundle()
         .pipe(source('erlvulnscan.js'))

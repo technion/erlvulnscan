@@ -1,6 +1,7 @@
 /* @flow */
 require('./phantomjs-shims'); //Compatibility shims from Facbeook
-var React = require('../bower_components/react/react');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var swal = require('../bower_components/sweetalert/dist/sweetalert.min');
 
 var NetscanList = React.createClass({
@@ -105,7 +106,7 @@ var NetscanBox = React.createClass({
   }
 });
 
-React.render(
+ReactDOM.render(
   <NetscanBox />,
   document.getElementById('content')
 );
