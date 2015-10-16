@@ -17,7 +17,7 @@ var htmlv = require('gulp-html-validator');
 jsfiles = './assets/erlvulnscan.jsx';
 
 gulp.task('build', function() {
-    return browserify({ entries: jsfiles, debug: false })
+    return browserify({ entries: jsfiles, debug: false, paths: [ './bower_components/react'] })
         .transform(babelify, {compact: false})
         .bundle()
         .pipe(source('erlvulnscan.js'))
@@ -49,7 +49,9 @@ gulp.task('html', function() {
     .pipe(htmlv())
 });
 
-gulp.task('phantom', shell.task(['phantomjs tests/phantomtest.js']));
+gulp.task('phantom', ['devbuild'],
+    shell.task(['phantomjs tests/phantomtest.js'])
+);
 
 gulp.task('default', ['eslint', 'css', 'build']);
 gulp.task('dev', ['eslint', 'css', 'devbuild', 'phantom', 'html']);
