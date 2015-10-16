@@ -2,7 +2,7 @@
 require('./phantomjs-shims'); //Compatibility shims from Facbeook
 var React = require('react');
 var ReactDOM = require('react-dom');
-var swal = require('sweetalert/dist/sweetalert.min');
+require('sweetalert/dist/sweetalert.min');
 
 var NetscanList = React.createClass({
    render: function(): ReactElement{
