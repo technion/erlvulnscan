@@ -81,7 +81,7 @@ var NetscanBox = React.createClass({
     var starttime = new Date().getTime();
     this.refs.prompt.innerHTML = "Running query...";
     $.ajax({
-      url: "http://erlvulnscan.lolware.net/netscan/?network=" + network,
+      url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
       dataType: 'json',
       cache: false,
       success: function(data) {
