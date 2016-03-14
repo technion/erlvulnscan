@@ -1,11 +1,9 @@
-/* @flow */
-require('./phantomjs-shims'); //Compatibility shims from Facbeook
 var React = require('react');
 var ReactDOM = require('react-dom');
-require('sweetalert/dist/sweetalert.min');
+require('sweetalert');
 
 var NetscanList = React.createClass({
-   render: function(): ReactElement{
+   render: function(){
    "use strict";
     var commentNodes = this.props.data.map(function (comment,index) {
       return (
@@ -23,7 +21,7 @@ var NetscanList = React.createClass({
 });
 
 var IPResult = React.createClass({
-    render: function(): ReactElement {
+    render: function() {
         "use strict";
         var ipstate;
         if (this.props.children === "vulnerable") {
@@ -76,7 +74,7 @@ var NetscanBox = React.createClass({
   getInitialState: function() {
     return {data: [], showForm: true};
   },
-  handleNetscanSubmit: function(network: string) {
+  handleNetscanSubmit: function(network) {
     "use strict";
     var starttime = new Date().getTime();
     this.refs.prompt.innerHTML = "Running query...";
@@ -95,7 +93,7 @@ var NetscanBox = React.createClass({
       }.bind(this)
     });
   },
-  render: function(): ReactElement {
+  render: function() {
     return (
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
