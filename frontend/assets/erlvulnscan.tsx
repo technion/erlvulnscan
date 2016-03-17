@@ -1,14 +1,15 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-require('sweetalert');
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
-var NetscanList = React.createClass({
+import * as Swal from "sweetalert";
+
+const NetscanList = React.createClass({
    render: function(){
    "use strict";
-    var commentNodes = this.props.data.map(function (comment,index) {
+    const commentNodes = this.props.data.map(function (comment, index: string) {
       return (
               <IPResult address={comment.address} key={index}>
-              {comment.stat} 
+              {comment.stat}
               </IPResult>
       );
     });
@@ -20,16 +21,16 @@ var NetscanList = React.createClass({
   }
 });
 
-var IPResult = React.createClass({
+const IPResult = React.createClass({
     render: function() {
         "use strict";
-        var ipstate;
+        let ipstate: string;
         if (this.props.children === "vulnerable") {
             ipstate = "alert alert-danger";
         } else if (this.props.children === "not_vulnerable") {
             ipstate = "alert alert-success";
         } else {
-            ipstate = "alert alert-info"; //No connect state
+            ipstate = "alert alert-info"; // No connect state
         }
 
         return (
@@ -37,28 +38,28 @@ var IPResult = React.createClass({
             {this.props.address} {this.props.children}</div>
         );
     }
-});    
+});
 
-var NetscanForm = React.createClass({
+let NetscanForm = React.createClass({
   handleSubmit: function(e) {
     "use strict";
     e.preventDefault();
-    var network = this.refs.network.value.trim();
+    const network: string = this.refs.network.value.trim();
     if (!network) {
       return;
     }
-    var re = /^\d+\.\d+\.\d+\.0$/; //IP Address match. Not a complete verifier.
+    const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier.
     if (!network.match(re)) {
         swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
         return;
     }
     this.props.onNetscanSubmit(network);
-    this.refs.network.value = '';
+    this.refs.network.value = "";
     return;
   },
   render: function() {
    "use strict";
-    if(this.props.show === false) {
+    if (this.props.show === false) {
         return(null);
     }
     return (
@@ -70,21 +71,21 @@ var NetscanForm = React.createClass({
   }
 });
 
-var NetscanBox = React.createClass({
+let NetscanBox = React.createClass({
   getInitialState: function() {
     return {data: [], showForm: true};
   },
   handleNetscanSubmit: function(network) {
     "use strict";
-    var starttime = new Date().getTime();
+    const starttime = new Date().getTime();
     this.refs.prompt.innerHTML = "Running query...";
     $.ajax({
       url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
-      dataType: 'json',
+      dataType: "json",
       cache: false,
       success: function(data) {
         this.setState({data: data, showForm: false});
-        var elapsed = new Date().getTime() - starttime;
+        const elapsed = new Date().getTime() - starttime;
         this.refs.prompt.innerHTML = "Scan and render completed in " + elapsed + "ms";
       }.bind(this),
       error: function(xhr, status, err) {
@@ -106,5 +107,5 @@ var NetscanBox = React.createClass({
 
 ReactDOM.render(
   <NetscanBox />,
-  document.getElementById('content')
+  document.getElementById("content")
 );
