@@ -1,8 +1,8 @@
 {
   "ambientDevDependencies": {
-    "react": "registry:dt/react#0.14.0+20160302224448",
-    "sweetalert": "registry:dt/sweetalert#1.1.3+20160228144357",
     "jquery": "registry:dt/jquery#1.10.0+20160303223636",
-    "react-dom": "registry:dt/react-dom#0.14.0+20151118193745"
+    "react": "registry:dt/react#0.14.0+20160412154040",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "sweetalert": "registry:dt/sweetalert#1.1.3+20160228144357"
   }
 }

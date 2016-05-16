@@ -1,28 +1,41 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import * as Swal from "sweetalert";
+import * as swal from "sweetalert";
 
-const NetscanList = React.createClass({
-   render: function(){
+interface I_NetScan {
+    stat: string;
+    address: string;
+}
+
+interface I_NetScanList {
+    data: Array<I_NetScan>;
+}
+
+class NetscanList extends React.Component<I_NetScanList, any> {
+   public render(){
    "use strict";
-    const commentNodes = this.props.data.map(function (comment, index: string) {
-      return (
+   const commentNodes = this.props.data.map(
+           (comment: I_NetScan, index: number) => 
               <IPResult address={comment.address} key={index}>
               {comment.stat}
               </IPResult>
-      );
-    });
+    );
     return (
-      <div >
+      <div>
         {commentNodes}
       </div>
     );
   }
-});
+};
 
-const IPResult = React.createClass({
-    render: function() {
+interface I_IPResult extends React.Props<IPResult> {
+      address: string;
+}
+
+
+class IPResult extends React.Component<I_IPResult, any> {
+    public render() {
         "use strict";
         let ipstate: string;
         if (this.props.children === "vulnerable") {
@@ -38,13 +51,19 @@ const IPResult = React.createClass({
             {this.props.address} {this.props.children}</div>
         );
     }
-});
+};
 
-let NetscanForm = React.createClass({
-  handleSubmit: function(e) {
+interface I_NetScanForm {
+    onNetscanSubmit: (network: string) => void;
+    show: boolean;
+}
+
+class NetscanForm extends React.Component<I_NetScanForm, any> {
+  public handleSubmit(e) {
     "use strict";
     e.preventDefault();
-    const network: string = this.refs.network.value.trim();
+    const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"])
+    const network: string = netnode.value.trim();
     if (!network) {
       return;
     }
@@ -54,56 +73,56 @@ let NetscanForm = React.createClass({
         return;
     }
     this.props.onNetscanSubmit(network);
-    this.refs.network.value = "";
+    netnode.value = "";
     return;
-  },
-  render: function() {
+  }
+  public render() {
    "use strict";
     if (this.props.show === false) {
         return(null);
     }
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
         <input type="text" placeholder="127.0.0.0" ref="network" />
         <input type="submit" value="Post" />
       </form>
     );
   }
-});
+};
 
-let NetscanBox = React.createClass({
-  getInitialState: function() {
-    return {data: [], showForm: true};
-  },
-  handleNetscanSubmit: function(network) {
-    "use strict";
-    const starttime = new Date().getTime();
-    this.refs.prompt.innerHTML = "Running query...";
-    $.ajax({
-      url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
-      dataType: "json",
-      cache: false,
-      success: function(data) {
-        this.setState({data: data, showForm: false});
-        const elapsed = new Date().getTime() - starttime;
-        this.refs.prompt.innerHTML = "Scan and render completed in " + elapsed + "ms";
-      }.bind(this),
-      error: function(xhr, status, err) {
-        swal("Error", "Unable to connect to backend", "error");
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  render: function() {
-    return (
+class NetscanBox extends React.Component<any, any> {
+      "use strict";
+      public getInitialState() {
+          return {data: [], showForm: true};
+      }
+      public handleNetscanSubmit(network: string) {
+          const starttime = new Date().getTime();
+          this.refs.prompt.innerHTML = "Running query...";
+          $.ajax({
+          url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
+          dataType: "json",
+          cache: false,
+          success: function(data) {
+              this.setState({data: data, showForm: false});
+              const elapsed = new Date().getTime() - starttime;
+              this.refs.prompt.innerHTML = "Scan and render completed in " + elapsed + "ms";
+          }.bind(this),
+          error: function(xhr, status, err) {
+              swal("Error", "Unable to connect to backend", "error");
+              console.error(this.props.url, status, err.toString());
+          }.bind(this)
+          });
+    }
+    public render() {
+      return (
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
         <NetscanList data={this.state.data} />
         <NetscanForm show={this.state.showForm} onNetscanSubmit={this.handleNetscanSubmit} />
         </div>
-    );
-  }
-});
+      );
+    }
+};
 
 ReactDOM.render(
   <NetscanBox />,
