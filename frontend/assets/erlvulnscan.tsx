@@ -13,10 +13,10 @@ interface I_NetScanList {
 }
 
 class NetscanList extends React.Component<I_NetScanList, any> {
-   public render(){
+   public render() {
    "use strict";
    const commentNodes = this.props.data.map(
-           (comment: I_NetScan, index: number) => 
+           (comment: I_NetScan, index: number) =>
               <IPResult address={comment.address} key={index}>
               {comment.stat}
               </IPResult>
@@ -62,7 +62,7 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
   public handleSubmit(e) {
     "use strict";
     e.preventDefault();
-    const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"])
+    const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"]);
     const network: string = netnode.value.trim();
     if (!network) {
       return;
@@ -92,12 +92,14 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
 
 class NetscanBox extends React.Component<any, any> {
       "use strict";
-      public getInitialState() {
-          return {data: [], showForm: true};
+      constructor(props) {
+          super(props);
+          this.state = {data: [], showForm: true};
       }
       public handleNetscanSubmit(network: string) {
           const starttime = new Date().getTime();
-          this.refs.prompt.innerHTML = "Running query...";
+          const promptmsg = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["prompt"]);
+          promptmsg.innerHTML = "Running query...";
           $.ajax({
           url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
           dataType: "json",
@@ -105,7 +107,7 @@ class NetscanBox extends React.Component<any, any> {
           success: function(data) {
               this.setState({data: data, showForm: false});
               const elapsed = new Date().getTime() - starttime;
-              this.refs.prompt.innerHTML = "Scan and render completed in " + elapsed + "ms";
+              promptmsg.innerHTML = "Scan and render completed in " + elapsed + "ms";
           }.bind(this),
           error: function(xhr, status, err) {
               swal("Error", "Unable to connect to backend", "error");
@@ -118,7 +120,7 @@ class NetscanBox extends React.Component<any, any> {
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
         <NetscanList data={this.state.data} />
-        <NetscanForm show={this.state.showForm} onNetscanSubmit={this.handleNetscanSubmit} />
+        <NetscanForm show={this.state.showForm} onNetscanSubmit={this.handleNetscanSubmit.bind(this)} />
         </div>
       );
     }
