@@ -12,6 +12,13 @@ interface I_NetScanList {
     data: Array<I_NetScan>;
 }
 
+declare class Recaptcha {
+    getResponse(): string;
+}
+
+declare var grecaptcha: Recaptcha;
+
+
 class NetscanList extends React.Component<I_NetScanList, any> {
    public render() {
    "use strict";
@@ -65,6 +72,7 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
     const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"]);
     const network: string = netnode.value.trim();
     if (!network) {
+        swal("Missing input", "Please supply a valid network address in the form x.x.x.0", "error");
       return;
     }
     const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier.
@@ -72,6 +80,12 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
         swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
         return;
     }
+    const recaptcha = grecaptcha.getResponse();
+    if (recaptcha.length === 0) {
+        swal("Invalid input", "Captcha must be completed", "error");
+        return;
+    }
+
     this.props.onNetscanSubmit(network);
     netnode.value = "";
     return;
