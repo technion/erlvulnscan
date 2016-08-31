@@ -5,42 +5,27 @@
 
 -export([init/2]).
 
-init(Req, Opts) ->
-    Method = cowboy_req:method(Req),
-    Req2 = case Method of
-    <<"GET">> ->
-        network_get(Req);
-    _ ->
-        % Currently only supporting GET queries
-        cowboy_req:reply(405, Req)
+init(Req0, State) ->
+    Req = try
+        <<"GET">> = cowboy_req:method(Req0), % Assert supported type
+        cowboy_req:match_qs([{network, nonempty}], Req0) of
+    #{network := Network} -> 
+        network(Network, Req0)
+    catch
+    _Error:_Reason -> 
+        cowboy_req:reply(400, #{}, <<"Invalid or missing parameter">>, Req0)
     end,
-    {ok, Req2, Opts}.
-
--define(QPARM(Q), {Q, [], undefined}).
--spec network_get(cowboy_req:req()) -> cowboy_req:req().
-network_get(Req) ->
-    QS = cowboy_req:match_qs([?QPARM(network)], Req),
-    %This pattersn of searching for undefined params is more scaleable
-    %to many parameters
-    UndefFilter = fun(_K, V) -> V =:= undefined end,
-    case maps:filter(UndefFilter, QS) of
-    #{} ->
-        #{network := Network} = QS,
-        network(Network, Req);
-    _ ->
-        cowboy_req:reply(400, [], <<"Missing network parameter.">>, Req)
-    end.
+    {ok, Req, State}.
 
 -spec network('true' | binary(), cowboy_req:req()) ->
     cowboy_req:req().
-
 network(Network, Req) ->
     case catch ipmangle:verify_address(Network) of
     {'EXIT', _} ->
         % This handles the exception from the address verifier
-        cowboy_req:reply(400, [
-            {<<"content-type">>, <<"text/plain; charset=utf-8">>}
-            ], <<"{error: \"Invalid input\"}">> , Req);
+        cowboy_req:reply(400, 
+            #{<<"content-type">> => <<"text/plain; charset=utf-8">>},
+            <<"{error: \"Invalid input\"}">> , Req);
     Network2 ->
         % If Network = <<"127.0.0.1">>, Network2 = "127.0.0."
         CacheF = fun(K) ->
@@ -49,8 +34,8 @@ network(Network, Req) ->
             ipmangle:ip_results_to_json(Scan)
             end,
         {ScanJson, _Hit} = cache:cached_fun(CacheF, Network2),
-        cowboy_req:reply(200, [
-            {<<"content-type">>, <<"application/json; charset=utf-8">>}
-            ], ScanJson, Req)
+        cowboy_req:reply(200,
+            #{<<"content-type">> => <<"application/json; charset=utf-8">>},
+            ScanJson, Req)
     end.
 
