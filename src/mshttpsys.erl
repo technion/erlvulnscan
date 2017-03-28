@@ -47,7 +47,7 @@ safe_address_test() ->
     ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
 safe_iis_test() ->
     % IP of microsoft.com
-    {ok, Localhost} = inet:parse_ipv4strict_address("173.223.179.235"),
+    {ok, Localhost} = inet:parse_ipv4strict_address("104.40.211.35"),
     ?assertEqual(not_vulnerable, mshttpsys(Localhost)).
 safe_not_iis_test() ->
     % IP of google.com
