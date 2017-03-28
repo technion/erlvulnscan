@@ -3,17 +3,23 @@ const webpack = require('webpack');
 module.exports = {
   context: __dirname,
   entry: "./assets/erlvulnscan.tsx",
+  devtool: "inline-source-map",
 
   output: {
     filename: "erlvulnscan.js",
     path: __dirname + "/build",
   },
   module: {
-    loaders: [
+    rules: [
 	  {
-	    test: /\.tsx$/,
+        test: /\.tsx$/,
         exclude: /node_modules/,
         loaders: ["ts-loader"],
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
       }
 	],
   },

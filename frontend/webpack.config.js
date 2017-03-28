@@ -2,7 +2,6 @@ const webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  devtool: "source-map",
   entry: "./assets/erlvulnscan.tsx",
 
   output: {

@@ -114,20 +114,18 @@ class NetscanBox extends React.Component<any, any> {
           const starttime = new Date().getTime();
           const promptmsg = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["prompt"]);
           promptmsg.innerHTML = "Running query...";
-          $.ajax({
-          url: "https://erlvulnscan.lolware.net/netscan/?network=" + network,
-          dataType: "json",
-          cache: false,
-          success: function(data) {
-              this.setState({data: data, showForm: false});
-              const elapsed = new Date().getTime() - starttime;
-              promptmsg.innerHTML = "Scan and render completed in " + elapsed + "ms";
-          }.bind(this),
-          error: function(xhr, status, err) {
-              swal("Error", "Unable to connect to backend", "error");
-              console.error(this.props.url, status, err.toString());
-          }.bind(this)
-          });
+          fetch(
+              "https://erlvulnscan.lolware.net/netscan/?network=" + network
+              ).then((response) => {
+                  return response.json();
+              }).then((data) => {
+                  this.setState({data: data, showForm: false});
+                  const elapsed = new Date().getTime() - starttime;
+                  promptmsg.innerHTML = "Scan and render completed in " + elapsed + "ms";
+              }).catch((err) => {
+                  swal("Error", "Unable to connect to backend", "error");
+                  console.error(this.props.url, err.message);
+              });
     }
     public render() {
       return (
