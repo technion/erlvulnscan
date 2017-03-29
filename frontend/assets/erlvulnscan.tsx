@@ -75,7 +75,7 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
         swal("Missing input", "Please supply a valid network address in the form x.x.x.0", "error");
       return;
     }
-    const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier.
+    const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier - will be strictly handled server side
     if (!network.match(re)) {
         swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
         return;
@@ -117,14 +117,19 @@ class NetscanBox extends React.Component<any, any> {
           fetch(
               "https://erlvulnscan.lolware.net/netscan/?network=" + network
               ).then((response) => {
+                  if(!response.ok) {
+                      throw new Error("Network response returned " 
+                              + response.status);
+                  }
                   return response.json();
               }).then((data) => {
                   this.setState({data: data, showForm: false});
                   const elapsed = new Date().getTime() - starttime;
-                  promptmsg.innerHTML = "Scan and render completed in " + elapsed + "ms";
+                  promptmsg.innerHTML = "Scan and render completed in "
+                          + elapsed + "ms";
               }).catch((err) => {
                   swal("Error", "Unable to connect to backend", "error");
-                  console.error(this.props.url, err.message);
+                  console.error(err.message);
               });
     }
     public render() {
