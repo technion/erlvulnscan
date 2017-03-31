@@ -2,7 +2,7 @@ const webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  entry: "./assets/erlvulnscan.tsx",
+  entry: "./assets/erlvulnscan-entry.tsx",
   devtool: "inline-source-map",
 
   output: {

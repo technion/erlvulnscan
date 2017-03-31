@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import * as swal from "sweetalert";
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 interface I_NetScan {
     stat: string;
@@ -62,6 +63,7 @@ class IPResult extends React.Component<I_IPResult, any> {
 
 interface I_NetScanForm {
     onNetscanSubmit: (network: string) => void;
+    setModal: (text: string) => void;
     show: boolean;
 }
 
@@ -72,17 +74,17 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
     const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"]);
     const network: string = netnode.value.trim();
     if (!network) {
-        swal("Missing input", "Please supply a valid network address in the form x.x.x.0", "error");
-      return;
+        this.props.setModal("Please supply a valid network address in the form x.x.x.0");
+        return;
     }
     const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier - will be strictly handled server side
     if (!network.match(re)) {
-        swal("Invalid input", "Please supply a valid network address in the form x.x.x.0", "error");
+        this.props.setModal("Please supply a valid network address in the form x.x.x.0");
         return;
     }
     const recaptcha = grecaptcha.getResponse();
     if (recaptcha.length === 0) {
-        swal("Invalid input", "Captcha must be completed", "error");
+        this.props.setModal("Captcha");
         return;
     }
 
@@ -108,7 +110,11 @@ class NetscanBox extends React.Component<any, any> {
       "use strict";
       constructor(props) {
           super(props);
-          this.state = {data: [], showForm: true};
+          this.state = {
+              data: [],
+              showForm: true,
+              showModal: false,
+          };
       }
       public handleNetscanSubmit(network: string) {
           const starttime = new Date().getTime();
@@ -128,22 +134,47 @@ class NetscanBox extends React.Component<any, any> {
                   promptmsg.innerHTML = "Scan and render completed in "
                           + elapsed + "ms";
               }).catch((err) => {
-                  swal("Error", "Unable to connect to backend", "error");
+                  this.setModal("Unable to connect to backend");
                   console.error(err.message);
               });
     }
+    public closeModal() {
+        this.setState({showModal: false});
+    }
+    public setModal(text: string) {
+        this.setState({
+            showModal: true,
+            modalText: text
+        });
+    }
+
     public render() {
+      const actions = [
+        <FlatButton
+          label="OK"
+          primary={true}
+          onTouchTap={this.closeModal.bind(this)}
+        />
+      ];
       return (
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
         <NetscanList data={this.state.data} />
-        <NetscanForm show={this.state.showForm} onNetscanSubmit={this.handleNetscanSubmit.bind(this)} />
+        <NetscanForm show={this.state.showForm}
+            onNetscanSubmit={this.handleNetscanSubmit.bind(this)}
+            setModal={this.setModal.bind(this)}
+        />
+        <Dialog
+          title="Error"
+          actions={actions}
+          modal={true}
+          open={this.state.showModal}
+        >
+        {this.state.modalText}
+        </Dialog>
         </div>
       );
     }
 };
 
-ReactDOM.render(
-  <NetscanBox />,
-  document.getElementById("content")
-);
+export default NetscanBox;
