@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import {WarningSVG} from './images.tsx'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -20,7 +21,7 @@ declare class Recaptcha {
 declare var grecaptcha: Recaptcha;
 
 
-class NetscanList extends React.Component<I_NetScanList, any> {
+class NetscanList extends React.Component<I_NetScanList, {}> {
    public render() {
    "use strict";
    const commentNodes = this.props.data.map(
@@ -42,7 +43,7 @@ interface I_IPResult extends React.Props<IPResult> {
 }
 
 
-class IPResult extends React.Component<I_IPResult, any> {
+class IPResult extends React.Component<I_IPResult, {}> {
     public render() {
         "use strict";
         let ipstate: string;
@@ -67,7 +68,7 @@ interface I_NetScanForm {
     show: boolean;
 }
 
-class NetscanForm extends React.Component<I_NetScanForm, any> {
+class NetscanForm extends React.Component<I_NetScanForm, {}> {
   public handleSubmit(e) {
     "use strict";
     e.preventDefault();
@@ -106,43 +107,52 @@ class NetscanForm extends React.Component<I_NetScanForm, any> {
   }
 };
 
-class NetscanBox extends React.Component<any, any> {
-      "use strict";
-      constructor(props) {
-          super(props);
-          this.state = {
-              data: [],
-              showForm: true,
-              showModal: false,
-          };
-      }
-      public handleNetscanSubmit(network: string) {
-          const starttime = new Date().getTime();
-          const promptmsg = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["prompt"]);
-          promptmsg.innerHTML = "Running query...";
-          fetch(
-              "https://erlvulnscan.lolware.net/netscan/?network=" + network
-              ).then((response) => {
-                  if(!response.ok) {
-                      throw new Error("Network response returned " 
-                              + response.status);
-                  }
-                  return response.json();
-              }).then((data) => {
-                  this.setState({data: data, showForm: false});
-                  const elapsed = new Date().getTime() - starttime;
-                  promptmsg.innerHTML = "Scan and render completed in "
-                          + elapsed + "ms";
-              }).catch((err) => {
-                  this.setModal("Unable to connect to backend");
-                  console.error(err.message);
-              });
+interface I_NetScanBoxState {
+    modalText: string;
+    data: Array<I_NetScan>;
+    showForm: boolean;
+    showModal: boolean;
+}
+
+class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
+    "use strict";
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [] as Array<I_NetScan>,
+            showForm: true,
+            showModal: false,
+            modalText: '',
+        };
+    }
+    public handleNetscanSubmit(network: string) {
+        const starttime = new Date().getTime();
+        const promptmsg = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["prompt"]);
+        promptmsg.innerHTML = "Running query...";
+        fetch(
+            "https://erlvulnscan.lolware.net/netscan/?network=" + network
+            ).then((response) => {
+                if(!response.ok) {
+                    throw new Error("Network response returned " 
+                            + response.status);
+                }
+                return response.json() as any;
+            }).then((data) => {
+                this.setState({...this.state, data: data, showForm: false});
+                const elapsed = new Date().getTime() - starttime;
+                promptmsg.innerHTML = "Scan and render completed in "
+                        + elapsed + "ms";
+            }).catch((err) => {
+                this.setModal("Unable to connect to backend");
+                console.error(err.message);
+            });
     }
     public closeModal() {
-        this.setState({showModal: false});
+        this.setState({...this.state, showModal: false});
     }
     public setModal(text: string) {
         this.setState({
+            ...this.state,
             showModal: true,
             modalText: text
         });
@@ -170,6 +180,7 @@ class NetscanBox extends React.Component<any, any> {
           modal={true}
           open={this.state.showModal}
         >
+        <WarningSVG />
         {this.state.modalText}
         </Dialog>
         </div>
