@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {WarningSVG} from './images.tsx'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import {WarningSVG} from "./images.tsx";
+import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
 
 interface I_NetScan {
     stat: string;
@@ -18,7 +18,7 @@ declare class Recaptcha {
     getResponse(): string;
 }
 
-declare var grecaptcha: Recaptcha;
+declare const grecaptcha: Recaptcha;
 
 
 class NetscanList extends React.Component<I_NetScanList, {}> {
@@ -36,7 +36,7 @@ class NetscanList extends React.Component<I_NetScanList, {}> {
       </div>
     );
   }
-};
+}
 
 interface I_IPResult extends React.Props<IPResult> {
       address: string;
@@ -60,7 +60,7 @@ class IPResult extends React.Component<I_IPResult, {}> {
             {this.props.address} {this.props.children}</div>
         );
     }
-};
+}
 
 interface I_NetScanForm {
     onNetscanSubmit: (network: string) => void;
@@ -105,7 +105,7 @@ class NetscanForm extends React.Component<I_NetScanForm, {}> {
       </form>
     );
   }
-};
+}
 
 interface I_NetScanBoxState {
     modalText: string;
@@ -122,7 +122,7 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
             data: [] as Array<I_NetScan>,
             showForm: true,
             showModal: false,
-            modalText: '',
+            modalText: "",
         };
     }
     public handleNetscanSubmit(network: string) {
@@ -132,8 +132,8 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
         fetch(
             "https://erlvulnscan.lolware.net/netscan/?network=" + network
             ).then((response) => {
-                if(!response.ok) {
-                    throw new Error("Network response returned " 
+                if (!response.ok) {
+                    throw new Error("Network response returned "
                             + response.status);
                 }
                 return response.json() as any;
@@ -186,6 +186,6 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
         </div>
       );
     }
-};
+}
 
 export default NetscanBox;
