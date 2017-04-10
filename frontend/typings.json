@@ -1,9 +1,0 @@
-{
-  "ambientDevDependencies": {
-    "react": "registry:dt/react#0.14.0+20160412154040",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
-  },
-  "devDependencies": {
-    "material-ui": "registry:npm/material-ui#0.15.1+20160817172421"
-  }
-}

@@ -8,9 +8,7 @@
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
-        "sourceMap": true
-    },
-    "files": [
-           "typings/main.d.ts"
-         ]
+        "sourceMap": true,
+        "typeRoots": ["./node_modules/@types"]
+    }
 }
