@@ -2,8 +2,22 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import {WarningSVG} from "./images.tsx";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "material-ui/Dialog";
+import Button from "material-ui/Button";
+import {
+  List,
+  ListItem,
+  ListItemText,
+} from "material-ui/List";
+import { createStyleSheet } from 'jss-theme-reactor';
+import customPropTypes from 'material-ui/utils/customPropTypes';
+
 
 interface I_NetScan {
     stat: string;
@@ -31,9 +45,9 @@ class NetscanList extends React.Component<I_NetScanList, {}> {
               </IPResult>
     );
     return (
-      <div>
+      <div><List>
         {commentNodes}
-      </div>
+      </List></div>
     );
   }
 }
@@ -46,22 +60,32 @@ interface I_IPResult extends React.Props<IPResult> {
 class IPResult extends React.Component<I_IPResult, {}> {
     public render() {
         "use strict";
+        const styleSheet = createStyleSheet('IPResult', () => ({
+            red: { backgroundColor: 'red' },
+            green: { backgroundColor: 'green' },
+            grey: { backgroundColor: 'grey' },
+            })
+        );
         let ipstate: string;
+        const classes = this.context.styleManager.render(styleSheet);
         if (this.props.children === "vulnerable") {
-            ipstate = "alert alert-danger";
+            ipstate = classes.red;
         } else if (this.props.children === "not_vulnerable") {
-            ipstate = "alert alert-success";
+            ipstate = classes.green;
         } else {
-            ipstate = "alert alert-info"; // No connect state
+            ipstate = classes.grey // No connect state
         }
-
+        const result: string = this.props.address + " " + this.props.children;
         return (
-            <div className={ipstate} role="alert">
-            {this.props.address} {this.props.children}</div>
+             <ListItem button>
+                  <ListItemText primary={result} className={ipstate} />
+             </ListItem>
         );
     }
 }
-
+IPResult.contextTypes = {
+  styleManager: customPropTypes.muiRequired,
+};
 interface I_NetScanForm {
     onNetscanSubmit: (network: string) => void;
     setModal: (text: string) => void;
@@ -159,13 +183,6 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     }
 
     public render() {
-      const actions = [
-        <FlatButton
-          label="OK"
-          primary={true}
-          onTouchTap={this.closeModal.bind(this)}
-        />
-      ];
       return (
         <div className="jumbotron">
         <div className="panel-heading" ref="prompt">Please enter a /24 network address.</div>
@@ -174,15 +191,18 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
             onNetscanSubmit={this.handleNetscanSubmit.bind(this)}
             setModal={this.setModal.bind(this)}
         />
-        <Dialog
-          title="Error"
-          actions={actions}
-          modal={true}
-          open={this.state.showModal}
-        >
-        <WarningSVG />
-        {this.state.modalText}
-        </Dialog>
+        <Dialog open={this.state.showModal}>
+          <DialogTitle>Error</DialogTitle>
+          <DialogContent>
+                <WarningSVG />
+                {this.state.modalText}
+          </DialogContent>
+          <DialogActions>
+              <Button onClick={this.closeModal.bind(this)} primary>
+                  OK
+              </Button>
+          </DialogActions>
+          </Dialog>
         </div>
       );
     }
