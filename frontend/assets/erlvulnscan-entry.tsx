@@ -3,16 +3,16 @@ import * as ReactDOM from "react-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
 
-import NetscanBox from "./erlvulnscan.tsx";
+import { NetscanBox } from "./erlvulnscan.tsx";
 
 class App extends React.Component<{}, {}> {
-    public render() {
-      return (
-        <MuiThemeProvider>
-          <NetscanBox />
-        </MuiThemeProvider>
+  public render() {
+    return (
+      <MuiThemeProvider>
+        <NetscanBox />
+      </MuiThemeProvider>
       );
-    }
+  }
 }
 
 injectTapEventPlugin();

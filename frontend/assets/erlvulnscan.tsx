@@ -1,3 +1,5 @@
+import { I_NetScan} from "./interfaces.d.ts";
+
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -17,119 +19,8 @@ import {
 } from "material-ui/List";
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
+import { NetscanForm, NetscanList } from './netscanform.tsx';
 
-
-interface I_NetScan {
-    stat: string;
-    address: string;
-}
-
-interface I_NetScanList {
-    data: Array<I_NetScan>;
-}
-
-declare class Recaptcha {
-    getResponse(): string;
-}
-
-declare const grecaptcha: Recaptcha;
-
-
-class NetscanList extends React.Component<I_NetScanList, {}> {
-   public render() {
-   "use strict";
-   const commentNodes = this.props.data.map(
-           (comment: I_NetScan, index: number) =>
-              <IPResult address={comment.address} key={index}>
-              {comment.stat}
-              </IPResult>
-    );
-    return (
-      <div><List>
-        {commentNodes}
-      </List></div>
-    );
-  }
-}
-
-interface I_IPResult extends React.Props<IPResult> {
-      address: string;
-}
-
-
-class IPResult extends React.Component<I_IPResult, {}> {
-    public render() {
-        "use strict";
-        const styleSheet = createStyleSheet('IPResult', () => ({
-            red: { backgroundColor: 'red' },
-            green: { backgroundColor: 'green' },
-            grey: { backgroundColor: 'grey' },
-            })
-        );
-        let ipstate: string;
-        const classes = this.context.styleManager.render(styleSheet);
-        if (this.props.children === "vulnerable") {
-            ipstate = classes.red;
-        } else if (this.props.children === "not_vulnerable") {
-            ipstate = classes.green;
-        } else {
-            ipstate = classes.grey // No connect state
-        }
-        const result: string = this.props.address + " " + this.props.children;
-        return (
-             <ListItem button>
-                  <ListItemText primary={result} className={ipstate} />
-             </ListItem>
-        );
-    }
-}
-IPResult.contextTypes = {
-  styleManager: customPropTypes.muiRequired,
-};
-interface I_NetScanForm {
-    onNetscanSubmit: (network: string) => void;
-    setModal: (text: string) => void;
-    show: boolean;
-}
-
-class NetscanForm extends React.Component<I_NetScanForm, {}> {
-  public handleSubmit(e) {
-    "use strict";
-    e.preventDefault();
-    const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"]);
-    const network: string = netnode.value.trim();
-    if (!network) {
-        this.props.setModal("Please supply a valid network address in the form x.x.x.0");
-        return;
-    }
-    const re = /^\d+\.\d+\.\d+\.0$/; // IP Address match. Not a complete verifier - will be strictly handled server side
-    if (!network.match(re)) {
-        this.props.setModal("Please supply a valid network address in the form x.x.x.0");
-        return;
-    }
-    const recaptcha = grecaptcha.getResponse();
-    if (recaptcha.length === 0) {
-        this.props.setModal("Captcha");
-        return;
-    }
-
-    this.props.onNetscanSubmit(network);
-    netnode.value = "";
-    return;
-  }
-  public render() {
-   "use strict";
-    if (this.props.show === false) {
-        return(null);
-    }
-    return (
-      <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
-        <input type="text" placeholder="127.0.0.0" ref="network" />
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-}
 
 interface I_NetScanBoxState {
     modalText: string;
@@ -138,7 +29,7 @@ interface I_NetScanBoxState {
     showModal: boolean;
 }
 
-class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
+export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     "use strict";
     constructor(props) {
         super(props);
@@ -207,5 +98,3 @@ class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
       );
     }
 }
-
-export default NetscanBox;
