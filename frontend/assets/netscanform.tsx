@@ -1,11 +1,11 @@
 import { I_NetScan } from "./interfaces.d.ts";
 
+import { createStyleSheet } from "jss-theme-reactor";
 import {
   List,
     ListItem,
     ListItemText,
 } from "material-ui/List";
-import { createStyleSheet } from "jss-theme-reactor";
 import customPropTypes from "material-ui/utils/customPropTypes";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -15,11 +15,10 @@ interface I_NetScanList {
 }
 
 declare class Recaptcha {
-  getResponse(): string;
+  public getResponse(): string;
 }
 
 declare const grecaptcha: Recaptcha;
-
 
 export class NetscanList extends React.Component<I_NetScanList, {}> {
   public render() {
@@ -28,7 +27,7 @@ export class NetscanList extends React.Component<I_NetScanList, {}> {
         (comment: I_NetScan, index: number) =>
           <IPResult address={comment.address} key={index}>
           {comment.stat}
-          </IPResult>
+          </IPResult>,
         );
     return (
         <div><List>
@@ -42,30 +41,29 @@ interface I_IPResult extends React.Props<IPResult> {
   address: string;
 }
 
-
 class IPResult extends React.Component<I_IPResult, {}> {
   public render() {
     "use strict";
-    const styleSheet = createStyleSheet('IPResult', () => ({
-      red: { 
-        backgroundColor: '#f2dede',
-        color: '#a94442',
-        borderColor: '#ebccd1',
-        border: '1px solid transparent'
+    const styleSheet = createStyleSheet("IPResult", () => ({
+      red: {
+        backgroundColor: "#f2dede",
+        color: "#a94442",
+        borderColor: "#ebccd1",
+        border: "1px solid transparent",
       },
       green: {
-        backgroundColor: '#dff0d8',
-        color: '#3c763d',
-        borderColor: '#d6e9c6',
-        border: '1px solid transparent'
+        backgroundColor: "#dff0d8",
+        color: "#3c763d",
+        borderColor: "#d6e9c6",
+        border: "1px solid transparent",
       },
       blue: {
-        color: '#31708f',
-        backgroundColor: '#d9edf7',
-        borderColor: '#bce8f1',
-        border: '1px solid transparent'
+        color: "#31708f",
+        backgroundColor: "#d9edf7",
+        borderColor: "#bce8f1",
+        border: "1px solid transparent",
       },
-      })
+      }),
     );
     let ipstate: string;
     const classes = this.context.styleManager.render(styleSheet);

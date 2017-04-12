@@ -24,17 +24,16 @@ import { NetscanForm, NetscanList } from './netscanform.tsx';
 
 interface I_NetScanBoxState {
     modalText: string;
-    data: Array<I_NetScan>;
+    data: I_NetScan[];
     showForm: boolean;
     showModal: boolean;
 }
 
 export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
-    "use strict";
     constructor(props) {
         super(props);
         this.state = {
-            data: [] as Array<I_NetScan>,
+            data: [] as I_NetScan[],
             showForm: true,
             showModal: false,
             modalText: "",
