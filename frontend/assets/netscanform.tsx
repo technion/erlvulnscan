@@ -42,6 +42,9 @@ interface I_IPResult extends React.Props<IPResult> {
 }
 
 class IPResult extends React.Component<I_IPResult, {}> {
+  public static contextTypes = {
+    styleManager: customPropTypes.muiRequired,
+  }
   public render() {
     "use strict";
     const styleSheet = createStyleSheet("IPResult", () => ({
@@ -83,10 +86,6 @@ class IPResult extends React.Component<I_IPResult, {}> {
   }
 }
 
-IPResult.contextTypes = {
-  styleManager: customPropTypes.muiRequired,
-};
-
 interface I_NetScanForm {
   onNetscanSubmit: (network: string) => void;
   setModal: (text: string) => void;
@@ -97,8 +96,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
   public handleSubmit(e) {
     "use strict";
     e.preventDefault();
-    const netnode = ReactDOM.findDOMNode<HTMLInputElement>(this.refs["network"]);
-    const network: string = netnode.value.trim();
+    const network: string = e.target.network.value.trim();
     if (!network) {
       this.props.setModal("Please supply a valid network address in the form x.x.x.0");
       return;
@@ -110,12 +108,12 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     }
     const recaptcha = grecaptcha.getResponse();
     if (recaptcha.length === 0) {
-      this.props.setModal("Captcha");
+      this.props.setModal("Please complete Captcha");
       return;
     }
 
     this.props.onNetscanSubmit(network);
-    netnode.value = "";
+    e.target.network.value = "";
     return;
   }
   public render() {
@@ -125,7 +123,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     }
     return (
         <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
-        <input type="text" placeholder="127.0.0.0" ref="network" />
+        <input type="text" name="network" placeholder="127.0.0.0" ref="network" />
         <input type="submit" value="Post" />
         </form>
         );
