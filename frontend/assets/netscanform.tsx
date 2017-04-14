@@ -44,7 +44,7 @@ interface I_IPResult extends React.Props<IPResult> {
 class IPResult extends React.Component<I_IPResult, {}> {
   public static contextTypes = {
     styleManager: customPropTypes.muiRequired,
-  }
+  };
   public render() {
     "use strict";
     const styleSheet = createStyleSheet("IPResult", () => ({
