@@ -1,12 +1,18 @@
-import { I_NetScan } from "./interfaces.d.ts";
+import { I_NetScan } from "./interfaces";
 
 import { createStyleSheet } from "jss-theme-reactor";
 import {
   List,
-    ListItem,
-    ListItemText,
+  ListItem,
+  ListItemText,
 } from "material-ui/List";
 import customPropTypes from "material-ui/utils/customPropTypes";
+import {
+  SecureSVG,
+  ErrorSVG,
+  ReportSVG
+} from "./images"
+
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -69,17 +75,22 @@ class IPResult extends React.Component<I_IPResult, {}> {
       }),
     );
     let ipstate: string;
+    let image;
     const classes = this.context.styleManager.render(styleSheet);
     if (this.props.children === "vulnerable") {
       ipstate = classes.red;
+      image = <ReportSVG />
     } else if (this.props.children === "not_vulnerable") {
       ipstate = classes.green;
+      image = <SecureSVG />
     } else {
       ipstate = classes.blue; // No connect state
+      image = <ErrorSVG />
     }
     const result: string = this.props.address + " " + this.props.children;
     return (
       <ListItem button>
+        {image}
         <ListItemText primary={result} className={ipstate} />
       </ListItem>
       );
