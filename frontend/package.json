@@ -2,9 +2,9 @@
   "name": "erlvulnscanner",
   "version": "0.1.0",
   "devDependencies": {
-    "@types/material-ui": "^0.16.60",
+    "@types/material-ui": "^0.17.1",
     "@types/react": "^15.0.21",
-    "@types/react-dom": "^0.14.23",
+    "@types/react-dom": "^15.5.0",
     "material-ui": "^1.0.0-alpha.10",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
