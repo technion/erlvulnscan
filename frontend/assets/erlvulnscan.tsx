@@ -42,12 +42,15 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     const promptmsg = document.getElementById("prompt");
     promptmsg.innerHTML = "Running query...";
     // Submission form - POST body in JSON
-    let scanform = { network: network, recaptcha: recaptcha };
+    const scanform = {
+      network: network,
+      recaptcha: recaptcha,
+    };
     fetch(
       "https://erlvulnscan.lolware.net/netscan/", {
         method: "POST",
-        body: JSON.stringify(scanform)
-      }
+        body: JSON.stringify(scanform),
+      },
     ).then((response) => {
       if (!response.ok) {
         throw new Error("Network response returned "

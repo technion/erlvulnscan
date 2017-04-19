@@ -10,8 +10,8 @@ import customPropTypes from "material-ui/utils/customPropTypes";
 import {
   SecureSVG,
   ErrorSVG,
-  ReportSVG
-} from "./images"
+  ReportSVG,
+} from "./images";
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -79,13 +79,13 @@ class IPResult extends React.Component<I_IPResult, {}> {
     const classes = this.context.styleManager.render(styleSheet);
     if (this.props.children === "vulnerable") {
       ipstate = classes.red;
-      image = <ReportSVG />
+      image = <ReportSVG />;
     } else if (this.props.children === "not_vulnerable") {
       ipstate = classes.green;
-      image = <SecureSVG />
+      image = <SecureSVG />;
     } else {
       ipstate = classes.blue; // No connect state
-      image = <ErrorSVG />
+      image = <ErrorSVG />;
     }
     const result: string = this.props.address + " " + this.props.children;
     return (
