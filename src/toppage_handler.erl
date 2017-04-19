@@ -6,17 +6,24 @@
 -export([init/2]).
 
 init(Req0, State) ->
-    Req = try
-        <<"GET">> = cowboy_req:method(Req0), % Assert supported type
-        cowboy_req:match_qs(
-                [{network, nonempty}, {recaptcha, nonempty}], Req0) of
-    #{network := Network, recaptcha := Recaptcha} ->
-        verify_network(Network, Recaptcha, Req0)
+    Req2 = try
+        <<"POST">> = cowboy_req:method(Req0), % Assert supported type
+        cowboy_req:read_body(Req0) of
+    {ok, PostBody, Req1} ->
+        processbody(PostBody, Req1)
     catch
     _Error:_Reason ->
-        cowboy_req:reply(400, #{}, <<"Invalid or missing parameter">>, Req0)
+        cowboy_req:reply(400, #{}, <<"Bad Request">>, Req0)
     end,
-    {ok, Req, State}.
+    {ok, Req2, State}.
+
+processbody(PostBody, Req0) ->
+    case jiffy:decode(PostBody, [return_maps]) of
+    #{<<"network">> := Network, <<"recaptcha">> := Recaptcha} ->
+        verify_network(Network, Recaptcha, Req0);
+    _ ->
+        cowboy_req:reply(400, #{}, <<"Invalid or missing parameter">>, Req0)
+    end.
 
 -spec verify_network(binary(), binary(), cowboy_req:req()) ->
     cowboy_req:req().

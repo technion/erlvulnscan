@@ -41,23 +41,28 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     const starttime = new Date().getTime();
     const promptmsg = document.getElementById("prompt");
     promptmsg.innerHTML = "Running query...";
+    // Submission form - POST body in JSON
+    let scanform = { network: network, recaptcha: recaptcha };
     fetch(
-        "https://erlvulnscan.lolware.net/netscan/?network=" + network + "&recaptcha=" + recaptcha,
-        ).then((response) => {
-          if (!response.ok) {
-          throw new Error("Network response returned "
-              + response.status);
-          }
-          return response.json() as any;
-          }).then((data) => {
-            this.setState({...this.state, data: data, showForm: false});
-            const elapsed = new Date().getTime() - starttime;
-            promptmsg.innerHTML = "Scan and render completed in "
-                + elapsed + "ms";
-            }).catch((err) => {
-              this.setModal("Unable to connect to backend");
-              console.error(err.message);
-              });
+      "https://erlvulnscan.lolware.net/netscan/", {
+        method: "POST",
+        body: JSON.stringify(scanform)
+      }
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response returned "
+            + response.status);
+      }
+      return response.json() as any;
+    }).then((data) => {
+      this.setState({...this.state, data: data, showForm: false});
+      const elapsed = new Date().getTime() - starttime;
+      promptmsg.innerHTML = "Scan and render completed in "
+        + elapsed + "ms";
+    }).catch((err) => {
+      this.setModal("Unable to connect to backend");
+      console.error(err.message);
+      });
   }
   public closeModal() {
     this.setState({...this.state, showModal: false});

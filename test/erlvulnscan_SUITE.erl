@@ -4,6 +4,7 @@
 -compile(export_all).
 
 -define(TESTPORT, 8085).
+-define(R, "{\"network\":\"127.0.0.0\",\"recaptcha\":\"03AO\"}").
 
 all() -> [invalid_request, valid_request, valid_json].
 
@@ -18,26 +19,26 @@ init_per_suite(Config) ->
 
 invalid_request(_Config) ->
     % Although we are testing a "failure", the fact it connects at all
-    % shows most of the app is running.
+    % shows most of the app is running and handles GET with the right
+    % error
     URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan/",
     {ok, {{_Version, 400, "Bad Request"}, _Headers, _Body}} =
     httpc:request(get, {URL, []}, [], []).
 
 valid_request(_Config) ->
-    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0&recaptcha=xxx",
+    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan/",
     {ok, {{_Version, 200, "OK"}, _Headers, _Body}} =
-    httpc:request(get, {URL, []}, [], []).
+    httpc:request(post, {URL, [], [], ?R}, [], []).
 
 valid_json(_Config) ->
     %Same test as valid_request, but tests the JSON
-    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0&recaptcha=xxx",
+    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan/",
     {ok, {{_Version, 200, "OK"}, _Headers, Body}} =
-    httpc:request(get, {URL, []}, [], []),
+    httpc:request(post, {URL, [], [], ?R}, [], []),
     JSON = jiffy:decode(Body),
     254 = length(JSON).
 
 end_per_suite(_Config) ->
     inets:stop(),
     application:stop(erlvulnscan).
-
 
