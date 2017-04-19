@@ -24,13 +24,13 @@ invalid_request(_Config) ->
     httpc:request(get, {URL, []}, [], []).
 
 valid_request(_Config) ->
-    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0",
+    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0&recaptcha=xxx",
     {ok, {{_Version, 200, "OK"}, _Headers, _Body}} =
     httpc:request(get, {URL, []}, [], []).
 
 valid_json(_Config) ->
     %Same test as valid_request, but tests the JSON
-    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0",
+    URL = "http://localhost:" ++ integer_to_list(?TESTPORT) ++ "/netscan?network=127.0.0.0&recaptcha=xxx",
     {ok, {{_Version, 200, "OK"}, _Headers, Body}} =
     httpc:request(get, {URL, []}, [], []),
     JSON = jiffy:decode(Body),

@@ -98,7 +98,7 @@ class IPResult extends React.Component<I_IPResult, {}> {
 }
 
 interface I_NetScanForm {
-  onNetscanSubmit: (network: string) => void;
+  onNetscanSubmit: (network: string, recaptcha: string) => void;
   setModal: (text: string) => void;
   show: boolean;
 }
@@ -123,7 +123,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
       return;
     }
 
-    this.props.onNetscanSubmit(network);
+    this.props.onNetscanSubmit(network, recaptcha);
     e.target.network.value = "";
     return;
   }

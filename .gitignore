@@ -5,3 +5,5 @@ ebin/
 .rebar/
 logs/
 test/*.beam
+config/private.config
+_build

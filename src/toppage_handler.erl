@@ -8,14 +8,29 @@
 init(Req0, State) ->
     Req = try
         <<"GET">> = cowboy_req:method(Req0), % Assert supported type
-        cowboy_req:match_qs([{network, nonempty}], Req0) of
-    #{network := Network} -> 
-        network(Network, Req0)
+        cowboy_req:match_qs(
+                [{network, nonempty}, {recaptcha, nonempty}], Req0) of
+    #{network := Network, recaptcha := Recaptcha} ->
+        verify_network(Network, Recaptcha, Req0)
     catch
-    _Error:_Reason -> 
+    _Error:_Reason ->
         cowboy_req:reply(400, #{}, <<"Invalid or missing parameter">>, Req0)
     end,
     {ok, Req, State}.
+
+-spec verify_network(binary(), binary(), cowboy_req:req()) ->
+    cowboy_req:req().
+verify_network(Network, Recaptcha, Req0) ->
+    % Verify against captcha
+    {IP, _Port} = cowboy_req:peer(Req0),
+    case recaptcha:verify(inet:ntoa(IP), Recaptcha) of
+    true ->
+        network(Network, Req0);
+    _ ->
+        cowboy_req:reply(400,
+            #{<<"content-type">> => <<"text/plain; charset=utf-8">>},
+            <<"{error: \"Failed captcha\"}">> , Req0)
+    end.
 
 -spec network('true' | binary(), cowboy_req:req()) ->
     cowboy_req:req().
@@ -23,7 +38,7 @@ network(Network, Req) ->
     case catch ipmangle:verify_address(Network) of
     {'EXIT', _} ->
         % This handles the exception from the address verifier
-        cowboy_req:reply(400, 
+        cowboy_req:reply(400,
             #{<<"content-type">> => <<"text/plain; charset=utf-8">>},
             <<"{error: \"Invalid input\"}">> , Req);
     Network2 ->

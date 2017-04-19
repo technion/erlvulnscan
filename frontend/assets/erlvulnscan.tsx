@@ -37,12 +37,12 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
       showModal: false,
     };
   }
-  public handleNetscanSubmit(network: string) {
+  public handleNetscanSubmit(network: string, recaptcha: string) {
     const starttime = new Date().getTime();
     const promptmsg = document.getElementById("prompt");
     promptmsg.innerHTML = "Running query...";
     fetch(
-        "https://erlvulnscan.lolware.net/netscan/?network=" + network,
+        "https://erlvulnscan.lolware.net/netscan/?network=" + network + "&recaptcha=" + recaptcha,
         ).then((response) => {
           if (!response.ok) {
           throw new Error("Network response returned "

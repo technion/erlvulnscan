@@ -7,8 +7,16 @@
                   kernel,
                   stdlib,
 		          cowboy,
-                  jiffy
+                  jiffy,
+                  crypto,
+                  asn1,
+                  public_key,
+                  ssl,
+                  inets
                  ]},
   {mod, { erlvulnscan_app, []}},
-  {env, [{bind_port, 8081}]}
+  {env, [
+      {bind_port, 8081},
+      {captcha_key, undefined}
+  ]}
  ]}.
