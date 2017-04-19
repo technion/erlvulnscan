@@ -30,8 +30,8 @@ processbody(PostBody, Req0) ->
     cowboy_req:req().
 verify_network(Network, Recaptcha, Req0) ->
     % Verify against captcha
-    {IP, _Port} = cowboy_req:peer(Req0),
-    case recaptcha:verify(inet:ntoa(IP), Recaptcha) of
+    IP = cowboy_req:header(<<"x-forwarded-for">>, Req0),
+    case recaptcha:verify(IP, Recaptcha) of
     true ->
         network(Network, Req0);
     _ ->
