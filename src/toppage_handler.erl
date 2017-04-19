@@ -8,6 +8,7 @@
 init(Req0, State) ->
     Req2 = try
         <<"POST">> = cowboy_req:method(Req0), % Assert supported type
+        true = cowboy_req:has_body(Req0),
         cowboy_req:read_body(Req0) of
     {ok, PostBody, Req1} ->
         processbody(PostBody, Req1)

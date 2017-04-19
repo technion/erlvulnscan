@@ -1,6 +1,5 @@
 -module(recaptcha).
 -define(RECAPTHA_API_URL, "https://www.google.com/recaptcha/api/siteverify").
--define(RECAPTHA_PRIVATE_KEY, "6Leegh0UAAAAACjYYMJ57PkJbpJ21uVuTdcsZ5i7").
 -export([verify/2]).
 
 -spec verify_live(string(), binary(), string()) -> atom().
