@@ -43,8 +43,8 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     promptmsg.innerHTML = "Running query...";
     // Submission form - POST body in JSON
     const scanform = {
-      network: network,
-      recaptcha: recaptcha,
+      network,
+      recaptcha,
     };
     fetch(
       "https://erlvulnscan.lolware.net/netscan/", {
@@ -58,7 +58,7 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
       }
       return response.json() as any;
     }).then((data) => {
-      this.setState({...this.state, data: data, showForm: false});
+      this.setState({...this.state, data, showForm: false});
       const elapsed = new Date().getTime() - starttime;
       promptmsg.innerHTML = "Scan and render completed in "
         + elapsed + "ms";
