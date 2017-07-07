@@ -5,6 +5,8 @@
         "jsx": "react",
         "declaration": false,
         "noImplicitAny": false,
+        "strict": true,
+        "noImplicitThis": true,
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,

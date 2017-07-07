@@ -1,11 +1,11 @@
 import { I_NetScan } from "./interfaces";
 
-import { createStyleSheet } from "jss-theme-reactor";
-import {
-  List,
+import { createStyleSheet } from "material-ui/styles";
+import List, {
   ListItem,
   ListItemText,
 } from "material-ui/List";
+
 import customPropTypes from "material-ui/utils/customPropTypes";
 import {
   SecureSVG,
@@ -89,7 +89,7 @@ class IPResult extends React.Component<I_IPResult, {}> {
     }
     const result: string = this.props.address + " " + this.props.children;
     return (
-      <ListItem button>
+      <ListItem>
         {image}
         <ListItemText primary={result} className={ipstate} />
       </ListItem>

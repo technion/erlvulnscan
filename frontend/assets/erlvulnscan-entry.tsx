@@ -1,7 +1,6 @@
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { MuiThemeProvider } from "material-ui/styles";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as injectTapEventPlugin from "react-tap-event-plugin";
 
 import { NetscanBox } from "./erlvulnscan";
 
@@ -14,8 +13,6 @@ class App extends React.Component<{}, {}> {
       );
   }
 }
-
-injectTapEventPlugin();
 
 ReactDOM.render(
   <App />,

@@ -1,22 +1,19 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {I_NetScan} from "./interfaces.d.ts";
-import {WarningSVG} from "./images.tsx";
-import {
-  Dialog,
+import { I_NetScan } from "./interfaces.d.ts";
+import { WarningSVG } from "./images.tsx";
+import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from "material-ui/Dialog";
 import Button from "material-ui/Button";
-import {
-  List,
+import List, {
   ListItem,
   ListItemText,
 } from "material-ui/List";
-import { createStyleSheet } from "jss-theme-reactor";
 import customPropTypes from "material-ui/utils/customPropTypes";
 import { NetscanForm, NetscanList } from "./netscanform.tsx";
 
@@ -40,6 +37,9 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
   public handleNetscanSubmit(network: string, recaptcha: string) {
     const starttime = new Date().getTime();
     const promptmsg = document.getElementById("prompt");
+    if(!promptmsg) {
+      throw("Missing prompt element");
+    }
     promptmsg.innerHTML = "Running query...";
     // Submission form - POST body in JSON
     const scanform = {
@@ -96,7 +96,7 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
           {this.state.modalText}
         </DialogContent>
         <DialogActions>
-        <Button onClick={this.closeModal.bind(this)} primary>
+        <Button onClick={this.closeModal.bind(this)} color="primary">
           OK
         </Button>
         </DialogActions>
