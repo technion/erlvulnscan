@@ -39,6 +39,9 @@ class ErrorModal extends React.Component<IErrorModalProp, {}> {
 export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
   constructor(props) {
     super(props);
+    this.handleNetscanSubmit = this.handleNetscanSubmit.bind(this);
+    this.setModal = this.setModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.state = {
       data: [] as I_NetScan[],
       modalText: "",
@@ -98,13 +101,13 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
         </div>
         <NetscanList data={this.state.data} />
         <NetscanForm show={this.state.showForm}
-          onNetscanSubmit={this.handleNetscanSubmit.bind(this)}
-          setModal={this.setModal.bind(this)}
+          onNetscanSubmit={this.handleNetscanSubmit}
+          setModal={this.setModal}
         />
         <ErrorModal
           showModal={this.state.showModal}
           modalText={this.state.modalText}
-          closeModal={this.closeModal.bind(this)} />
+          closeModal={this.closeModal} />
         </div>
         );
   }

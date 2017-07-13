@@ -72,6 +72,11 @@ interface I_NetScanForm {
 }
 
 export class NetscanForm extends React.Component<I_NetScanForm, {}> {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   public handleSubmit(e) {
     "use strict";
     e.preventDefault();
@@ -100,8 +105,8 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     }
     return (
       <span>
-      <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
-      <input type="text" name="network" ref="network" />
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <input type="text" name="network" />
       <input type="submit" value="Post" />
       </form>
       <div className="g-recaptcha container"
