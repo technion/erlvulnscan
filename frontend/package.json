@@ -2,16 +2,16 @@
   "name": "erlvulnscanner",
   "version": "0.1.0",
   "devDependencies": {
-    "@types/material-ui": "^0.17.1",
-    "@types/react": "^15.0.21",
+    "@types/react": "^15.0.37",
     "@types/react-dom": "^15.5.0",
-    "material-ui": "^1.0.0-alpha.10",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-tap-event-plugin": "^2.0.1",
     "source-map-loader": "^0.2.0",
+    "semantic-ui-react": "^0.71.0",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
     "webpack": "^2.3.2"
-  }
+  },
+  "dependencies": {}
 }

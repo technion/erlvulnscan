@@ -1,20 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Button, Modal } from 'semantic-ui-react'
 
 import { I_NetScan } from "./interfaces.d.ts";
 import { WarningSVG } from "./images.tsx";
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "material-ui/Dialog";
-import Button from "material-ui/Button";
-import List, {
-  ListItem,
-  ListItemText,
-} from "material-ui/List";
-import customPropTypes from "material-ui/utils/customPropTypes";
 import { NetscanForm, NetscanList } from "./netscanform.tsx";
 
 interface I_NetScanBoxState {
@@ -22,6 +11,29 @@ interface I_NetScanBoxState {
   data: I_NetScan[];
   showForm: boolean;
   showModal: boolean;
+}
+
+interface IErrorModalProp {
+  modalText: string;
+  showModal: boolean;
+  closeModal: () => void;
+}
+
+class ErrorModal extends React.Component<IErrorModalProp, {}> {
+  public render() {
+    return (
+      <Modal
+        open={this.props.showModal} 
+        onClose={this.props.closeModal}
+        basic>
+      <Modal.Header>Error</Modal.Header>
+      <Modal.Content>
+      <WarningSVG />
+        {this.props.modalText}
+      </Modal.Content>
+      </Modal>
+    )
+  }
 }
 
 export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
@@ -89,18 +101,10 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
           onNetscanSubmit={this.handleNetscanSubmit.bind(this)}
           setModal={this.setModal.bind(this)}
         />
-        <Dialog open={this.state.showModal}>
-        <DialogTitle>Error</DialogTitle>
-        <DialogContent>
-        <WarningSVG />
-          {this.state.modalText}
-        </DialogContent>
-        <DialogActions>
-        <Button onClick={this.closeModal.bind(this)} color="primary">
-          OK
-        </Button>
-        </DialogActions>
-        </Dialog>
+        <ErrorModal
+          showModal={this.state.showModal}
+          modalText={this.state.modalText}
+          closeModal={this.closeModal.bind(this)} />
         </div>
         );
   }
