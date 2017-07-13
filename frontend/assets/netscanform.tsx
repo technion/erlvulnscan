@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button } from 'semantic-ui-react';
+import { Button } from "semantic-ui-react";
 
 import { I_NetScan } from "./interfaces";
 
@@ -9,7 +9,6 @@ import {
   ErrorSVG,
   ReportSVG,
 } from "./images";
-
 
 interface I_NetScanList {
   data: I_NetScan[];
@@ -93,8 +92,6 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     }
 
     this.props.onNetscanSubmit(network, recaptcha);
-    e.target.network.value = "";
-    return;
   }
   public render() {
     "use strict";
@@ -104,7 +101,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     return (
       <span>
       <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
-      <input type="text" name="network" placeholder="127.0.0.0" ref="network" />
+      <input type="text" name="network" ref="network" />
       <input type="submit" value="Post" />
       </form>
       <div className="g-recaptcha container"

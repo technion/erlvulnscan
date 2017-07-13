@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Modal } from "semantic-ui-react";
 
 import { I_NetScan } from "./interfaces.d.ts";
 import { WarningSVG } from "./images.tsx";
@@ -23,7 +23,7 @@ class ErrorModal extends React.Component<IErrorModalProp, {}> {
   public render() {
     return (
       <Modal
-        open={this.props.showModal} 
+        open={this.props.showModal}
         onClose={this.props.closeModal}
         basic>
       <Modal.Header>Error</Modal.Header>
@@ -32,7 +32,7 @@ class ErrorModal extends React.Component<IErrorModalProp, {}> {
         {this.props.modalText}
       </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
 
@@ -49,8 +49,8 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
   public handleNetscanSubmit(network: string, recaptcha: string) {
     const starttime = new Date().getTime();
     const promptmsg = document.getElementById("prompt");
-    if(!promptmsg) {
-      throw("Missing prompt element");
+    if (!promptmsg) {
+      throw new Error("Missing prompt element");
     }
     promptmsg.innerHTML = "Running query...";
     // Submission form - POST body in JSON
@@ -60,8 +60,8 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
     };
     fetch(
       "https://erlvulnscan.lolware.net/netscan/", {
-        method: "POST",
         body: JSON.stringify(scanform),
+        method: "POST",
       },
     ).then((response) => {
       if (!response.ok) {
