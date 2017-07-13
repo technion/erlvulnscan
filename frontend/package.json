@@ -11,7 +11,10 @@
     "source-map-loader": "^0.2.0",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
-    "webpack": "^2.3.2"
+    "webpack": "^3.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "tapable": "^0.2.6",
+    "webpack-sources": "^1.0.1"
+  }
 }
