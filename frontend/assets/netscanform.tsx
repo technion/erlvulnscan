@@ -102,10 +102,14 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
       return(null);
     }
     return (
+      <span>
       <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
       <input type="text" name="network" placeholder="127.0.0.0" ref="network" />
       <input type="submit" value="Post" />
       </form>
+      <div className="g-recaptcha container"
+        data-sitekey="6LccrB0UAAAAAMXhOZxEg6LJ8F2NR-Y-8NFWlDiS"></div>
+      </span>
       );
   }
 }
