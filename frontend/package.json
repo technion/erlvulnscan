@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "tapable": "^0.2.6",
+    "webpack-common-shake": "^1.5.3",
     "webpack-sources": "^1.0.1"
   }
 }

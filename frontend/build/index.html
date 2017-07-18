@@ -4,22 +4,17 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Mass Vulnerability Scanner</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
-    <style>
-html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}a{background-color:transparent}a:active,a:hover{outline:0}h1{margin:.67em 0;font-size:2em}input{margin:0;font:inherit;color:inherit}input[type=submit]{-webkit-appearance:button;cursor:pointer}input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */@media print{*,:after,:before{color:#000!important;text-shadow:none!important;background:0 0!important;-webkit-box-shadow:none!important;box-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:" (" attr(href) ")"}p{orphans:3;widows:3}}@font-face{font-family:'Glyphicons Halflings';src:url(../fonts/glyphicons-halflings-regular.eot);src:url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(../fonts/glyphicons-halflings-regular.woff) format('woff'),url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}:after,:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}html{font-size:10px;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}input{font-family:inherit;font-size:inherit;line-height:inherit}a{color:#337ab7;text-decoration:none}a:focus,a:hover{color:#23527c;text-decoration:underline}a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}h1{font-family:inherit;font-weight:500;line-height:1.1;color:inherit}h1{margin-top:20px;margin-bottom:10px}h1{font-size:36px}p{margin:0 0 10px}.lead{margin-bottom:20px;font-size:16px;font-weight:300;line-height:1.4}@media (min-width:768px){.lead{font-size:21px}}.container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media (min-width:768px){.container{width:750px}}@media (min-width:992px){.container{width:970px}}@media (min-width:1200px){.container{width:1170px}}.btn{display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px}.btn:active:focus,.btn:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn:focus,.btn:hover{color:#333;text-decoration:none}.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125);box-shadow:inset 0 3px 5px rgba(0,0,0,.125)}.btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}.btn-info:active,.btn-info:focus,.btn-info:hover{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info:active{background-image:none}.jumbotron{padding:30px 15px;margin-bottom:30px;color:inherit;background-color:#eee}.container .jumbotron{border-radius:6px}@media screen and (min-width:768px){.jumbotron{padding:48px 0}.container .jumbotron{padding-right:60px;padding-left:60px}}.panel-heading{padding:10px 15px;border-bottom:1px solid transparent;border-top-left-radius:3px;border-top-right-radius:3px}.container:after,.container:before{display:table;content:" "}.container:after{clear:both}@-ms-viewport{width:device-width}
-    </style>
   </head>
   <body>
-        <div class="container">
+        <div class="ui text container">
 
-          <div class="starter-template">
-                      <h1>ERLvulnscan</h1>
-  <p class="lead">Web based concurrent scanner for CVE-2015-1635.<br>This tool/page is designed to be adapted to new and interesting vulnerabilities as they are released. This tool may also be taken offline in the event of abuse.</p>
-                </div>
-    <a class="btn btn-info" href="https://lolware.net/2015/06/15/mass-vulnerability-scanning.html">Blog discussion</a> 
-    <a class="btn btn-info" href="https://github.com/technion/erlvulnscan">Project Source on Github</a> 
-
+         <h1>ERLvulnscan</h1>
+  <p>Web based concurrent scanner for CVE-2015-1635.<br>This tool/page is designed to be adapted to new and interesting vulnerabilities as they are released. This tool may also be taken offline in the event of abuse.</p>
+    <a class="ui primary button" href="https://lolware.net/2015/06/15/mass-vulnerability-scanning.html">Blog discussion</a> 
+    <a class="ui primary button" href="https://github.com/technion/erlvulnscan">Project Source on Github</a> 
         </div>
-    <div id="content" class="container"></div>
+        <p>&nbsp;</p>
+    <div id="content" class="ui fluid container"></div>
     <script src="erlvulnscan.js" type="text/javascript"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </body>

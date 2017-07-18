@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button } from "semantic-ui-react";
+import { Header, Segment } from "semantic-ui-react";
 
 import { I_NetScan } from "./interfaces";
 
@@ -55,12 +55,18 @@ class IPResult extends React.Component<I_IPResult, {}> {
       ipstate = "blue"; // No connect state
       image = <ErrorSVG />;
     }
-    const result: string = this.props.address + " " + this.props.children;
+    const result: string = this.props.address + "\u00A0\u00A0"
+        + this.props.children;
     return (
-      <Button color={ipstate}>
+      <Segment inverted color={ipstate} textAlign="center">
+      <Header as="h3">
         {image}
+        <Header.Content>
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         {result}
-      </Button>
+        </Header.Content>
+      </Header>
+      </Segment>
       );
   }
 }
@@ -105,7 +111,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     }
     return (
       <span>
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
       <input type="text" name="network" />
       <input type="submit" value="Post" />
       </form>

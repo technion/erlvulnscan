@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button, Modal } from "semantic-ui-react";
+import { Button, Container, Modal } from "semantic-ui-react";
 
 import { I_NetScan } from "./interfaces.d.ts";
 import { WarningSVG } from "./images.tsx";
@@ -95,10 +95,10 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
 
   public render() {
     return (
-        <div className="jumbotron">
-        <div className="panel-heading" id="prompt" >
+        <Container text>
+        <h2 className="ui header" id="prompt" >
           Please enter a /24 network address.
-        </div>
+        </h2>
         <NetscanList data={this.state.data} />
         <NetscanForm show={this.state.showForm}
           onNetscanSubmit={this.handleNetscanSubmit}
@@ -108,7 +108,7 @@ export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
           showModal={this.state.showModal}
           modalText={this.state.modalText}
           closeModal={this.closeModal} />
-        </div>
+        </Container>
         );
   }
 }
