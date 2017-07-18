@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Header, Segment } from "semantic-ui-react";
+//import { Header, Segment } from "semantic-ui-react";
+import Header from "semantic-ui-react/dist/commonjs/elements/Header";
+import Segment from "semantic-ui-react/dist/commonjs/elements/Segment";
 
 import { I_NetScan } from "./interfaces";
 

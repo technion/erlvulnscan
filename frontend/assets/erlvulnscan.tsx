@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button, Container, Modal } from "semantic-ui-react";
+//import { Button, Container, Modal } from "semantic-ui-react";
+import Container from "semantic-ui-react/dist/commonjs/elements/Container";
+import Modal from "semantic-ui-react/dist/commonjs/modules/Modal";
 
 import { I_NetScan } from "./interfaces.d.ts";
 import { WarningSVG } from "./images.tsx";
