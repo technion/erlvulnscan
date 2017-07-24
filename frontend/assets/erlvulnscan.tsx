@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-//import { Button, Container, Modal } from "semantic-ui-react";
 import Container from "semantic-ui-react/dist/commonjs/elements/Container";
 import Modal from "semantic-ui-react/dist/commonjs/modules/Modal";
+import Button from "semantic-ui-react/dist/commonjs/elements/Button";
 
 import { I_NetScan } from "./interfaces.d.ts";
-import { WarningSVG } from "./images.tsx";
+import { RedWarningSVG } from "./images.tsx";
 import { NetscanForm, NetscanList } from "./netscanform.tsx";
 
 interface I_NetScanBoxState {
@@ -28,11 +28,18 @@ class ErrorModal extends React.Component<IErrorModalProp, {}> {
         open={this.props.showModal}
         onClose={this.props.closeModal}
         basic>
-      <Modal.Header>Error</Modal.Header>
+      <Modal.Header>
+        Error
+       </Modal.Header>
       <Modal.Content>
-      <WarningSVG />
+      <RedWarningSVG /><br />
         {this.props.modalText}
       </Modal.Content>
+      <Modal.Actions>
+        <Button color='green' onClick={this.props.closeModal} inverted>
+          OK
+        </Button>
+      </Modal.Actions>
       </Modal>
     );
   }

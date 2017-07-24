@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-//import { Header, Segment } from "semantic-ui-react";
 import Header from "semantic-ui-react/dist/commonjs/elements/Header";
 import Segment from "semantic-ui-react/dist/commonjs/elements/Segment";
 
@@ -65,7 +64,9 @@ class IPResult extends React.Component<I_IPResult, {}> {
         {image}
         <Header.Content>
         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-        {result}
+        {this.props.address}
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+        {this.props.children}
         </Header.Content>
       </Header>
       </Segment>
