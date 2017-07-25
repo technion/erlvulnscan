@@ -62,7 +62,7 @@ class IPResult extends React.Component<I_IPResult, {}> {
       <Segment inverted color={ipstate} textAlign="center">
       <Header as="h3">
         {image}
-        <Header.Content>
+        <Header.Content as="span">
         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         {this.props.address}
         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
