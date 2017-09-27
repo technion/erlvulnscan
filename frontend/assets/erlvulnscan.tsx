@@ -46,7 +46,7 @@ class ErrorModal extends React.Component<IErrorModalProp, {}> {
 }
 
 export class NetscanBox extends React.Component<{}, I_NetScanBoxState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.handleNetscanSubmit = this.handleNetscanSubmit.bind(this);
     this.setModal = this.setModal.bind(this);

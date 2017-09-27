@@ -86,7 +86,7 @@ export class NetscanForm extends React.Component<I_NetScanForm, {}> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  public handleSubmit(e) {
+  public handleSubmit(e: any) {
     "use strict";
     e.preventDefault();
     const network: string = e.target.network.value.trim();
