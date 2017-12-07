@@ -2,19 +2,19 @@
   "name": "erlvulnscanner",
   "version": "0.1.0",
   "devDependencies": {
-    "@types/jest": "^21.1.1",
-    "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.5",
-    "@types/react-test-renderer": "^15.5.4",
-    "jest": "^21.2.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-test-renderer": "^16.0.0",
+    "@types/jest": "^21.1.8",
+    "@types/react": "^16.0.27",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-test-renderer": "^16.0.0",
+    "jest": "^21.2.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
     "semantic-ui-react": "^0.74.2",
     "source-map-loader": "^0.2.0",
-    "ts-jest": "^21.0.1",
+    "ts-jest": "^21.2.4",
     "ts-loader": "^2.3.7",
-    "typescript": "^2.5.3",
+    "typescript": "^2.6.2",
     "webpack": "^3.6.0"
   },
   "jest": {
@@ -28,5 +28,7 @@
       "js"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash-ts-imports-loader": "^1.1.2"
+  }
 }
