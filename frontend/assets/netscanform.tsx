@@ -81,8 +81,8 @@ interface I_NetScanForm {
 }
 
 export class NetscanForm extends React.Component<I_NetScanForm, {}> {
-  constructor() {
-    super();
+  constructor(props: I_NetScanForm) {
+    super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
